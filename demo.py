@@ -101,18 +101,19 @@ def demo_fake_detection():
     print("   [演示3] 虚假文本检测")
     print("=" * 70)
 
-    # v3.0: TF-IDF 文本特征 + 元数据特征联合训练
+    # v3.0: TF-IDF 文本特征 + 元数据特征联合训练（首次训练后缓存）
     try:
-        from time_series.fake_detection.ced_loader import load_ced_dataset
-        from time_series.fake_detection import FakeDetectorTrainer, FakeDetector
+        from time_series.fake_detection import get_or_train_model, FakeDetector
 
-        texts, labels, metadata_list, stats = load_ced_dataset()
-        trainer = FakeDetectorTrainer()
-        model, report = trainer.train_with_text(texts, metadata_list, labels)
+        model, report = get_or_train_model()
         detector = FakeDetector(model=model)
-        print(f"  [v3.0 TF-IDF+元数据联合训练] CED数据集 {stats['total_loaded']}条, CV准确率={report['cv_mean_accuracy']:.1%}")
-        print(f"  TF-IDF文本特征: {report['feature_dimensions']['tfidf_text_features']}维")
-        print(f"  元数据特征: {report['feature_dimensions']['metadata_features']}维")
+
+        if report.get("source") == "缓存加载":
+            print(f"  [v3.0 模型缓存加载] 从 {report['path']} 加载已训练模型")
+        else:
+            print(f"  [v3.0 TF-IDF+元数据联合训练] CED数据集, CV准确率={report['cv_mean_accuracy']:.1%}")
+            print(f"  TF-IDF文本特征: {report['feature_dimensions']['tfidf_text_features']}维")
+            print(f"  元数据特征: {report['feature_dimensions']['metadata_features']}维")
         print(f"  最强虚假文本模式: {list(report['top_tfidf_text_features'].keys())[:5]}")
     except Exception:
         detector = FakeDetector(auto_train=True)

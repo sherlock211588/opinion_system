@@ -13,9 +13,10 @@
 
 from __future__ import annotations
 
-__all__ = ["FeatureExtractor", "FakeDetectorTrainer", "FakeDetector"]
+__all__ = ["FeatureExtractor", "FakeDetectorTrainer", "FakeDetector", "get_or_train_model"]
 
 import math
+import os
 import pickle
 from pathlib import Path
 from typing import Any
@@ -358,12 +359,59 @@ class FakeDetectorTrainer:
         return best_model, report
 
     def save_model(self, model: Any, path: str) -> None:
-        with open(path, "wb") as f:
-            pickle.dump(model, f)
+        """保存模型（使用 joblib，对 sklearn 大对象更高效）"""
+        from joblib import dump as jl_dump
+        jl_dump(model, path)
 
-    def load_model(self, path: str) -> Any:
-        with open(path, "rb") as f:
-            return pickle.load(f)
+    @staticmethod
+    def load_model(path: str) -> Any:
+        """加载模型"""
+        from joblib import dump as _unused  # noqa
+        from joblib import load as jl_load
+        return jl_load(path)
+
+
+# ============================================================
+#  便捷函数：训练一次，之后自动加载缓存
+# ============================================================
+
+_MODEL_CACHE_DIR = Path(__file__).resolve().parent.parent.parent / "data"
+_DEFAULT_MODEL_PATH = str(_MODEL_CACHE_DIR / "fake_detector_model.joblib")
+
+
+def get_or_train_model(
+    model_path: str = _DEFAULT_MODEL_PATH,
+    force_retrain: bool = False,
+) -> tuple[Any, dict[str, Any]]:
+    """
+    获取模型（有缓存就用缓存，没有就训练一次）
+
+    这是给 5 号的最简接口：
+        from time_series.fake_detection import get_or_train_model, FakeDetector
+        model, report = get_or_train_model()
+        detector = FakeDetector(model=model)
+
+    首次运行：训练 CED 数据集，保存到 data/fake_detector_model.joblib
+    后续运行：直接加载缓存，秒级启动
+    """
+    if not force_retrain and os.path.exists(model_path):
+        trainer = FakeDetectorTrainer()
+        model = trainer.load_model(model_path)
+        return model, {"source": "缓存加载", "path": model_path}
+
+    # 训练
+    from .ced_loader import load_ced_dataset
+
+    texts, labels, metadata_list, stats = load_ced_dataset()
+    trainer = FakeDetectorTrainer()
+    model, report = trainer.train_with_text(texts, metadata_list, labels)
+
+    # 确保缓存目录存在
+    os.makedirs(os.path.dirname(model_path), exist_ok=True)
+    trainer.save_model(model, model_path)
+
+    report["cached_to"] = model_path
+    return model, report
 
 
 # ============================================================
@@ -451,6 +499,85 @@ class FakeDetector:
 
         return result
 
+    def _explain_with_shap(
+        self, X_combined: np.ndarray, lr: Any,
+        n_tfidf: int, tfidf: Any, meta_features_raw: np.ndarray,
+    ) -> dict[str, Any]:
+        """SHAP 可解释性：逐词解释模型判定
+
+        基于 I-FLASH (Dua et al., 2023): "Interpretable Fake News Detector Using
+        LIME and SHAP"。对逻辑回归，SHAP 值是解析的：
+
+          SHAP_i = (x_i - E[x_i]) * weight_i
+
+        E[x_i] 是特征均值（来自训练数据）。这不需要采样、不需要 GPU，
+        对 2008 维特征也是毫秒级。
+
+        返回：词级 SHAP 值列表 + 元数据 SHAP 值列表 + 摘要文字
+        """
+        coef = lr.coef_[0]  # shape: (2008,)
+
+        # 懒初始化特征均值 baseline
+        if not hasattr(self, "_shap_baseline") or self._shap_baseline is None:
+            self._shap_baseline = np.zeros(len(coef))
+
+        x = X_combined[0]
+        sv = (x - self._shap_baseline) * coef
+
+        # 拆分 TF-IDF 和元数据
+        sv_tfidf = sv[:n_tfidf]
+        sv_meta = sv[n_tfidf:]
+
+        # 词级解释：取 SHAP 绝对值最大的前 8 个词（≥2字）
+        id2word = {v: k for k, v in tfidf.vocabulary_.items()}
+        top_tfidf_idx = np.argsort(np.abs(sv_tfidf))[-8:][::-1]
+
+        word_contributions = []
+        for idx in top_tfidf_idx:
+            shap_val = float(sv_tfidf[idx])
+            word = id2word.get(int(idx), "")
+            if word and len(word) >= 2:
+                direction = "可信" if shap_val > 0 else "虚假"
+                word_contributions.append({
+                    "word": word, "shap_value": round(shap_val, 4),
+                    "direction": direction,
+                })
+
+        # 元数据解释
+        meta_contributions = []
+        for i, name in enumerate(self.extractor.FEATURE_NAMES):
+            shap_val = float(sv_meta[i]) if i < len(sv_meta) else 0.0
+            direction = "可信" if shap_val > 0 else "虚假"
+            meta_contributions.append({
+                "feature": name, "shap_value": round(shap_val, 4),
+                "direction": direction,
+                "raw_value": round(float(meta_features_raw[i]), 3),
+            })
+        meta_contributions.sort(key=lambda x: abs(x["shap_value"]), reverse=True)
+
+        # 摘要
+        top_fake = [w for w in word_contributions if w["direction"] == "虚假"][:3]
+        top_real = [w for w in word_contributions if w["direction"] == "可信"][:3]
+
+        summary_parts = []
+        if top_fake:
+            summary_parts.append("虚假词: " + ", ".join(
+                f"'{w['word']}'({w['shap_value']:+.2f})" for w in top_fake
+            ))
+        if top_real:
+            summary_parts.append("可信词: " + ", ".join(
+                f"'{w['word']}'({w['shap_value']:+.2f})" for w in top_real
+            ))
+        if not summary_parts:
+            summary_parts.append("无明显区分性词汇")
+
+        return {
+            "summary": " | ".join(summary_parts),
+            "top_words": word_contributions,
+            "top_metadata_features": meta_contributions[:5],
+            "method": "SHAP LinearExplainer (I-FLASH, Dua et al., 2023) — 解析解",
+        }
+
     def _evaluate_text_meta(
         self, text: str, metadata: dict[str, Any]
     ) -> dict[str, Any]:
@@ -491,7 +618,7 @@ class FakeDetector:
         risk_factors.sort(key=lambda x: x[0])
         risk_messages = [msg for _, msg in risk_factors[:5] if msg]
 
-        # TF-IDF 最强的文本信号（只取多字模式，单字无意义）
+        # TF-IDF 最强的文本信号
         tfidf_weights = lr.coef_[0][:n_tfidf]
         top_neg_idx = np.argsort(tfidf_weights)[:20]
         id2word = {v: k for k, v in tfidf.vocabulary_.items()}
@@ -499,13 +626,25 @@ class FakeDetector:
         for idx in top_neg_idx:
             if tfidf_weights[idx] < -0.5:
                 word = id2word.get(int(idx), "")
-                if len(word) >= 2:  # 至少2字才展示
+                if len(word) >= 2:
                     fake_text_signals.append(
                         f"文本模式\'{word}\'与虚假信息强相关"
                     )
         risk_messages = fake_text_signals[:3] + risk_messages[:3]
 
-        return self._build_result(real_prob, fake_prob, contributions, risk_messages)
+        # SHAP 解释（基于 I-FLASH, Dua et al., 2023）
+        try:
+            shap_explanation = self._explain_with_shap(
+                X_combined, lr, n_tfidf, tfidf, meta_features,
+            )
+            risk_messages = [shap_explanation["summary"]] + risk_messages
+        except Exception:
+            shap_explanation = None
+
+        result = self._build_result(real_prob, fake_prob, contributions, risk_messages)
+        if shap_explanation:
+            result["shap_explanation"] = shap_explanation
+        return result
 
     def _evaluate_numeric(
         self, text: str, metadata: dict[str, Any]
@@ -531,7 +670,49 @@ class FakeDetector:
         risk_factors.sort(key=lambda x: x[0])
         risk_messages = [msg for _, msg in risk_factors[:5] if msg]
 
-        return self._build_result(real_prob, fake_prob, contributions, risk_messages)
+        # SHAP 解释（解析解——逻辑回归的 SHAP = (x - baseline) * weight）
+        try:
+            coef = lr.coef_[0]
+            if not hasattr(self, "_shap_baseline_num") or self._shap_baseline_num is None:
+                self._shap_baseline_num = np.zeros(len(coef))
+            sv_vals = (features - self._shap_baseline_num) * coef
+
+            meta_contribs = []
+            for i, name in enumerate(self.extractor.FEATURE_NAMES):
+                sv_i = float(sv_vals[i]) if i < len(sv_vals) else 0.0
+                direction = "可信" if sv_i > 0 else "虚假"
+                meta_contribs.append({
+                    "feature": name, "shap_value": round(sv_i, 4),
+                    "direction": direction, "raw_value": round(float(features[i]), 3),
+                })
+            meta_contribs.sort(key=lambda x: abs(x["shap_value"]), reverse=True)
+
+            top_fake = [m for m in meta_contribs if m["direction"] == "虚假"][:3]
+            top_real = [m for m in meta_contribs if m["direction"] == "可信"][:3]
+            summary_parts = []
+            if top_fake:
+                summary_parts.append("虚假: " + ", ".join(
+                    f"{m['feature']}({m['shap_value']:+.2f})" for m in top_fake
+                ))
+            if top_real:
+                summary_parts.append("可信: " + ", ".join(
+                    f"{m['feature']}({m['shap_value']:+.2f})" for m in top_real
+                ))
+            shap_exp = {
+                "summary": " | ".join(summary_parts) if summary_parts else "无明显区分特征",
+                "top_words": [],
+                "top_metadata_features": meta_contribs[:5],
+                "method": "SHAP 解析解 (I-FLASH, Dua et al., 2023)",
+            }
+            if shap_exp["summary"]:
+                risk_messages = [shap_exp["summary"]] + risk_messages
+        except Exception:
+            shap_exp = None
+
+        result = self._build_result(real_prob, fake_prob, contributions, risk_messages)
+        if shap_exp:
+            result["shap_explanation"] = shap_exp
+        return result
 
     def _apply_topology_adjustment(
         self, result: dict[str, Any], topology: dict[str, Any],

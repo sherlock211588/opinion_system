@@ -18,6 +18,7 @@
 
 from __future__ import annotations
 
+import math
 from typing import Any
 
 import numpy as np
@@ -65,7 +66,13 @@ class CrossEventAnalyzer:
         n_events = len(event_ids)
 
         if n_events < 2:
-            return {"pairs": [], "causal_graph": {}, "summary": "需要至少 2 个事件才能做跨事件分析"}
+            return {
+                "pairs": [], "transfer_entropy_pairs": [], "causal_graph": {},
+                "significant_pairs": 0, "significant_te_pairs": 0,
+                "total_pairs_tested": 0,
+                "summary": "需要至少 2 个事件才能做跨事件分析",
+                "method": "格兰杰因果检验 + 符号化传递熵 (Korenek & Sanda, 2024-2025)",
+            }
 
         # 提取每个事件的时序
         event_series = {}
@@ -124,26 +131,228 @@ class CrossEventAnalyzer:
                     ),
                 })
 
+        # 对每一对事件也做符号化传递熵
+        te_pairs = []
+        for i in range(n_events):
+            for j in range(n_events):
+                if i == j:
+                    continue
+                eid_a = event_ids[i]
+                eid_b = event_ids[j]
+                te_result = self._symbolic_transfer_entropy(
+                    event_series[eid_a]["driver"],
+                    event_series[eid_b]["target"],
+                    n_bins=3,
+                    n_shuffles=200,
+                )
+                if te_result is not None:
+                    te_pairs.append({
+                        "from_event": eid_a,
+                        "from_title": event_series[eid_a]["title"],
+                        "to_event": eid_b,
+                        "to_title": event_series[eid_b]["title"],
+                        "driver_field": driver_field,
+                        "target_field": target_field,
+                        "te_raw": te_result["te_raw"],
+                        "te_effective": te_result["te_effective"],
+                        "is_significant": te_result["is_significant"],
+                        "p_value": te_result["p_value"],
+                        "interpretation": (
+                            f"「{event_series[eid_a]['title']}」→「{event_series[eid_b]['title']}」"
+                            f" 传递熵 TE={te_result['te_effective']:.4f}"
+                            f" ({'显著' if te_result['is_significant'] else '不显著'}"
+                            f", p={te_result['p_value']:.4f})。"
+                        ),
+                    })
+
+        te_pairs.sort(key=lambda p: p["te_effective"], reverse=True)
+        te_significant = sum(1 for p in te_pairs if p["is_significant"])
+
         # 按 p 值排序（最显著的排前面）
         pairs.sort(key=lambda p: p["p_value"])
-
         significant_count = sum(1 for p in pairs if p["is_significant"])
 
         return {
             "pairs": pairs,
+            "transfer_entropy_pairs": te_pairs,
             "causal_graph": {k: v for k, v in causal_graph.items() if v},
             "significant_pairs": significant_count,
+            "significant_te_pairs": te_significant,
             "total_pairs_tested": len(pairs),
             "summary": (
-                f"在 {len(pairs)} 对事件中发现了 {significant_count} 对显著因果关系 "
-                f"(p < {self.significance_level})。"
-                if significant_count > 0
+                f"在 {len(pairs)} 对事件中发现了 {significant_count} 对显著线性因果关系 "
+                f"(p < {self.significance_level})，"
+                f"{te_significant} 对显著非线性因果关系。"
+                if significant_count > 0 or te_significant > 0
                 else f"在 {len(pairs)} 对事件中未发现显著因果关系。"
             ),
-            "method": f"格兰杰因果检验 (Granger, 1969), max_lag={self.max_lag}h, alpha={self.significance_level}",
+            "method": (
+                f"格兰杰因果检验 (Granger, 1969) + "
+                f"符号化传递熵 (Symbolic Transfer Entropy, Korenek & Sanda, 2024-2025), "
+                f"max_lag={self.max_lag}h, alpha={self.significance_level}"
+            ),
         }
 
     # ---------- 内部方法 ----------
+
+    @staticmethod
+    def _symbolic_transfer_entropy(
+        driver_series: np.ndarray,
+        target_series: np.ndarray,
+        n_bins: int = 3,
+        n_shuffles: int = 200,
+    ) -> dict[str, Any] | None:
+        """
+        符号化传递熵 (Symbolic Transfer Entropy)
+
+        基于 Korenek & Sanda (2024-2025):
+          "Some Thoughts on Symbolic Transfer Entropy" (Physical Review E)
+          "Higher Order Definition of Causality by Optimally Conditioned
+           Transfer Entropy" (arXiv)
+
+        核心思路：
+          1. 把连续时序按分位数离散化为 3 个符号 (低/中/高)
+             → 变成符号序列，消除量纲和非线性映射问题
+          2. 计算传递熵：
+             TE(X→Y) = Σ p(y_{t+1}, y_t, x_t) ×
+                       log( p(y_{t+1}|y_t, x_t) / p(y_{t+1}|y_t) )
+             即：知道 X 的过去，比只知道 Y 的过去，能额外减少多少
+             关于 Y 未来的不确定性？
+          3. 用 shuffled surrogates 做显著性检验：
+             随机打乱 driver 序列 200 次，算 TE 的零分布，
+             真实 TE 超过 95% 的随机值 → 显著
+
+        和格兰杰因果的区别：
+          格兰杰 → 线性预测改善（OLS 回归残差比）
+          传递熵 → 信息论不确定性减少（不需要假设线性）
+
+        参数：
+          n_bins:    离散化箱数 (3 = 低/中/高)
+          n_shuffles: 显著性检验的打乱次数
+
+        返回：
+          {te_raw, te_effective, is_significant, p_value} 或 None
+        """
+        n = len(target_series)
+        if n < 20:
+            return None
+
+        # Step 1: 按分位数离散化为符号序列 (0, 1, 2)
+        def _discretize(series: np.ndarray) -> np.ndarray:
+            q33 = np.percentile(series, 33.33)
+            q67 = np.percentile(series, 66.67)
+            sym = np.zeros(len(series), dtype=int)
+            sym[series > q33] = 1
+            sym[series > q67] = 2
+            return sym
+
+        x_sym = _discretize(driver_series)
+        y_sym = _discretize(target_series)
+
+        # Step 2: 计算转移概率
+        # 三联组 (y_next, y_now, x_now)，每种组合的计数
+        n_states = n_bins  # 3 states per variable
+        # joint[y_next][y_now][x_now]
+        joint = np.zeros((n_states, n_states, n_states))
+        # marginal[y_next][y_now] = 边际分布 p(y_{t+1}, y_t)
+        marginal = np.zeros((n_states, n_states))
+        n_transitions = n - 1
+
+        for t in range(n_transitions):
+            yn = y_sym[t + 1]  # y_{t+1}
+            yc = y_sym[t]      # y_t
+            xc = x_sym[t]      # x_t
+            joint[yn, yc, xc] += 1
+            marginal[yn, yc] += 1
+
+        # 转为概率（加平滑避免 log(0)）
+        eps = 1e-10
+        joint_prob = (joint + eps) / (n_transitions + eps * n_states**3)
+        marginal_prob = (marginal + eps) / (n_transitions + eps * n_states**2)
+
+        # p(y_{t+1} | y_t, x_t) = joint / sum_x_joint
+        cond_joint = np.zeros_like(joint_prob)
+        for yn in range(n_states):
+            for yc in range(n_states):
+                total = joint[yn, yc, :].sum()
+                if total > 0:
+                    cond_joint[yn, yc, :] = joint_prob[yn, yc, :] / (total / (n_transitions + eps * n_states**3))
+
+        # p(y_{t+1} | y_t) = marginal / sum_y_marginal
+        cond_marginal = np.zeros_like(marginal_prob)
+        for yc in range(n_states):
+            total = marginal[:, yc].sum()
+            if total > 0:
+                cond_marginal[:, yc] = marginal_prob[:, yc] / (total / (n_transitions + eps * n_states**2))
+
+        # Step 3: 计算传递熵
+        te_raw = 0.0
+        for yn in range(n_states):
+            for yc in range(n_states):
+                for xc in range(n_states):
+                    p_j = joint_prob[yn, yc, xc]
+                    p_cj = cond_joint[yn, yc, xc]
+                    p_cm = cond_marginal[yn, yc]
+                    if p_j > eps and p_cj > eps and p_cm > eps:
+                        te_raw += p_j * math.log(p_cj / p_cm)
+
+        te_raw = abs(te_raw)  # 微小浮动取绝对值
+
+        # Step 4: 显著性检验（shuffled surrogates）
+        rng = np.random.RandomState(42)
+        te_shuffled = []
+        for _ in range(n_shuffles):
+            x_shuffled = rng.permutation(x_sym)
+            # 同样的计算，但 x 被随机打乱了
+            joint_s = np.zeros((n_states, n_states, n_states))
+            marginal_s = np.zeros((n_states, n_states))
+            for t in range(n_transitions):
+                yn = y_sym[t + 1]
+                yc = y_sym[t]
+                xc = x_shuffled[t]
+                joint_s[yn, yc, xc] += 1
+                marginal_s[yn, yc] += 1
+            joint_s_prob = (joint_s + eps) / (n_transitions + eps * n_states**3)
+            marginal_s_prob = (marginal_s + eps) / (n_transitions + eps * n_states**2)
+            cond_j_s = np.zeros_like(joint_s_prob)
+            cond_m_s = np.zeros_like(marginal_s_prob)
+            for yn in range(n_states):
+                for yc in range(n_states):
+                    total_j = joint_s[yn, yc, :].sum()
+                    if total_j > 0:
+                        cond_j_s[yn, yc, :] = joint_s_prob[yn, yc, :] / ((total_j) / (n_transitions + eps * n_states**3))
+            for yc in range(n_states):
+                total_m = marginal_s[:, yc].sum()
+                if total_m > 0:
+                    cond_m_s[:, yc] = marginal_s_prob[:, yc] / ((total_m) / (n_transitions + eps * n_states**2))
+            te_s = 0.0
+            for yn in range(n_states):
+                for yc in range(n_states):
+                    for xc in range(n_states):
+                        p_j = joint_s_prob[yn, yc, xc]
+                        p_cj = cond_j_s[yn, yc, xc]
+                        p_cm = cond_m_s[yn, yc]
+                        if p_j > eps and p_cj > eps and p_cm > eps:
+                            te_s += p_j * math.log(p_cj / p_cm)
+            te_shuffled.append(abs(te_s))
+
+        te_shuffled = np.array(te_shuffled)
+        p_value = float(np.mean(te_shuffled >= te_raw))
+
+        # 有效传递熵 = 原始 TE - 随机 TE 均值（Korenek & Sanda 推荐）
+        te_effective = max(0.0, te_raw - float(np.mean(te_shuffled)))
+
+        return {
+            "te_raw": round(float(te_raw), 6),
+            "te_effective": round(float(te_effective), 6),
+            "is_significant": p_value < 0.05,
+            "p_value": round(float(p_value), 4),
+            "shuffle_mean": round(float(np.mean(te_shuffled)), 6),
+            "shuffle_std": round(float(np.std(te_shuffled)), 6),
+            "n_bins": n_bins,
+            "n_shuffles": n_shuffles,
+            "method": "符号化传递熵 (Korenek & Sanda, 2024-2025)",
+        }
 
     def _granger_test(
         self,
@@ -375,6 +584,14 @@ if __name__ == "__main__":
         print(f"    最佳滞后: {p['best_lag_hours']}h | p={p['p_value']:.4f}")
         print(f"    各滞后p值: {p['all_lag_pvalues']}")
         print(f"    {p['interpretation']}")
+
+    if result.get("transfer_entropy_pairs"):
+        print(f"\n传递熵分析 (非线性因果, Korenek & Sanda, 2024-2025):")
+        for tp in result["transfer_entropy_pairs"]:
+            sig = "*** 显著 ***" if tp["is_significant"] else ""
+            print(f"\n  {tp['from_title']} → {tp['to_title']}  {sig}")
+            print(f"    TE原始={tp['te_raw']:.4f}  TE有效={tp['te_effective']:.4f}  p={tp['p_value']:.4f}")
+            print(f"    {tp['interpretation']}")
 
     if result["causal_graph"]:
         print(f"\n因果图 (有向边 A→B = A的driver Granger-cause B的target):")
