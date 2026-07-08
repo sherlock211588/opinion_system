@@ -175,10 +175,24 @@ def generate_mock_events(num_events: int = 3) -> list[dict[str, Any]]:
                 "platform_distribution": plat_dist,
             })
 
+        # 顶层聚合字段（对齐团队标准数据格式）
+        total_news = sum(r["news_count"] for r in records)
+        max_hot = max(r["hot_score"] for r in records)
+        avg_pos = round(sum(r["positive_ratio"] for r in records) / len(records), 3)
+        avg_neg = round(sum(r["negative_ratio"] for r in records) / len(records), 3)
+        avg_neu = round(sum(r["neutral_ratio"] for r in records) / len(records), 3)
+
         events.append({
             "event_id": f"EVT_{i+1:03d}",
             "event_title": titles_pool[i % len(titles_pool)],
             "category": categories[i % len(categories)],
+            "hot_score": round(max_hot, 1),
+            "news_count": total_news,
+            "sentiment_distribution": {
+                "positive": avg_pos,
+                "negative": avg_neg,
+                "neutral": avg_neu,
+            },
             "start_time": base_time,
             "timeseries": records,
         })
@@ -251,13 +265,13 @@ if __name__ == "__main__":
     print(f"事件ID: {evt['event_id']}")
     print(f"标题: {evt['event_title']}")
     print(f"分类: {evt['category']}")
-    print(f"数据记录数: {len(evt['records'])} 条（每小时一条）")
-    print(f"时间范围: {evt['records'][0]['time']} ~ {evt['records'][-1]['time']}")
+    print(f"数据记录数: {len(evt['timeseries'])} 条（每小时一条）")
+    print(f"时间范围: {evt['timeseries'][0]['time']} ~ {evt['timeseries'][-1]['time']}")
     print()
     print("每小时报道量（折线图预览）:")
     for r in evt["timeseries"][::4]:  # 每4小时打印一次
         bar = "█" * (r["news_count"] // 2)
-        print(f"  {r['time'].strftime('%m/%d %H:%M')} | {r['article_count']:3d} 篇 {bar}")
+        print(f"  {r['time'].strftime('%m/%d %H:%M')} | {r['news_count']:3d} 篇 {bar}")
 
     print()
     print("=" * 60)
@@ -266,7 +280,7 @@ if __name__ == "__main__":
     nodes = generate_mock_propagation_data()
     for n in nodes:
         indent = "  " * (0 if n["parent_node_id"] is None else 1)
-        verified = "✓认证" if n["is_verified"] else ""
+        verified = "[V]认证" if n["is_verified"] else ""
         parent_info = f"← 转发自 {n['parent_node_id']}" if n["parent_node_id"] else "（源头）"
         print(f"{indent}[{n['node_id']}] {n['account_name']} "
               f"粉丝:{n['follower_count']:,} {verified} "

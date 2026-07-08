@@ -22,13 +22,31 @@ class LifecycleDetector:
         self.latent_count_threshold = latent_count_threshold
         self._last_index_breakdown = {}
 
+    @staticmethod
+    def _parse_time(t):
+        """标准化时间：字符串 → datetime；datetime → 不变"""
+        if isinstance(t, str):
+            from datetime import datetime
+            try:
+                return datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
+            except ValueError:
+                return datetime.strptime(t, "%Y-%m-%dT%H:%M:%S")
+        return t
+
+    @staticmethod
+    def _format_time(t) -> str:
+        """标准化时间输出：datetime → 字符串"""
+        if isinstance(t, str):
+            return t
+        return t.strftime("%Y-%m-%d %H:%M")
+
     def detect(self, event_data):
         records = event_data["timeseries"]
         if not records:
             return {"event_id": event_data.get("event_id"), "current_stage": STAGE_UNKNOWN, "error": "没有数据"}
 
         counts = [r["news_count"] for r in records]
-        times = [r["time"] for r in records]
+        times = [self._parse_time(r["time"]) for r in records]
         decycled_records, diurnal_info = remove_diurnal_cycle(records)
         composite_index = compute_heat_index(decycled_records, self)
         trend_slope, trend_direction = self._calc_trend(composite_index)
@@ -54,7 +72,7 @@ class LifecycleDetector:
             "composite_index_breakdown": self._last_index_breakdown,
             "turning_points": turning_points, "predicted_next_24h": predicted,
             "total_duration_hours": len(records), "peak_count": max(counts),
-            "peak_time": times[counts.index(max(counts))].strftime("%Y-%m-%d %H:%M"),
+            "peak_time": self._format_time(times[counts.index(max(counts))]),
             "diurnal_cycle": diurnal_info, "resurgence": resurgence_info,
             "critical_early_warning": critical_warning,
         }

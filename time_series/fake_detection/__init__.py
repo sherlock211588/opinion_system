@@ -301,7 +301,7 @@ class FakeDetectorTrainer:
                 "fake": int(np.sum(y_arr == 0)),
                 "real": int(np.sum(y_arr == 1)),
             },
-            "data_source": {"source": "文本+元数据联合训练"},
+            "data_source": {"source": f"CED真实数据集 (THUNLP, {len(y_arr)}条)", "n_rumors": int(np.sum(y_arr == 0)), "n_non_rumors": int(np.sum(y_arr == 1))},
         }
 
         return model_package, report
@@ -377,6 +377,7 @@ class FakeDetectorTrainer:
 
 _MODEL_CACHE_DIR = Path(__file__).resolve().parent.parent.parent / "data"
 _DEFAULT_MODEL_PATH = str(_MODEL_CACHE_DIR / "fake_detector_model.joblib")
+_DEFAULT_META_PATH = str(_MODEL_CACHE_DIR / "fake_detector_model_meta.json")
 
 
 def get_or_train_model(
@@ -393,11 +394,37 @@ def get_or_train_model(
 
     首次运行：训练 CED 数据集，保存到 data/fake_detector_model.joblib
     后续运行：直接加载缓存，秒级启动
+
+    缓存包含两个文件：
+      - fake_detector_model.joblib  （模型本身）
+      - fake_detector_model_meta.json （训练元数据：CV准确率、特征维度等）
     """
+    meta_path = model_path.replace(".joblib", "_meta.json")
+
     if not force_retrain and os.path.exists(model_path):
         trainer = FakeDetectorTrainer()
         model = trainer.load_model(model_path)
-        return model, {"source": "缓存加载", "path": model_path}
+
+        # 优先从元数据 JSON 加载训练报告
+        if os.path.exists(meta_path):
+            import json
+            with open(meta_path, "r", encoding="utf-8") as f:
+                meta = json.load(f)
+            meta["source"] = "缓存加载"
+            meta["path"] = model_path
+            return model, meta
+
+        # 兜底：从模型对象中提取可用信息
+        meta_fallback = {"source": "缓存加载", "path": model_path}
+        if isinstance(model, dict) and model.get("type") == "text+meta":
+            if "tfidf" in model:
+                meta_fallback["feature_dimensions"] = {
+                    "tfidf_text_features": len(model["tfidf"].vocabulary_),
+                    "metadata_features": 8,
+                    "total": len(model["tfidf"].vocabulary_) + 8,
+                }
+            meta_fallback["model_type"] = "text+meta"
+        return model, meta_fallback
 
     # 训练
     from .ced_loader import load_ced_dataset
@@ -409,6 +436,22 @@ def get_or_train_model(
     # 确保缓存目录存在
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
     trainer.save_model(model, model_path)
+
+    # 同时保存训练元数据 JSON（独立于模型文件，便于查询）
+    import json
+    meta_data = {
+        "cv_mean_accuracy": report["cv_mean_accuracy"],
+        "cv_std": report["cv_std"],
+        "best_C": report["best_C"],
+        "feature_dimensions": report["feature_dimensions"],
+        "top_tfidf_text_features": report["top_tfidf_text_features"],
+        "metadata_feature_weights": report["metadata_feature_weights"],
+        "n_samples": report["n_samples"],
+        "class_balance": report["class_balance"],
+        "data_source": report["data_source"],
+    }
+    with open(meta_path, "w", encoding="utf-8") as f:
+        json.dump(meta_data, f, ensure_ascii=False, indent=2)
 
     report["cached_to"] = model_path
     return model, report

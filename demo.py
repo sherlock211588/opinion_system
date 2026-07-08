@@ -108,13 +108,24 @@ def demo_fake_detection():
         model, report = get_or_train_model()
         detector = FakeDetector(model=model)
 
-        if report.get("source") == "缓存加载":
+        is_cached = report.get("source") == "缓存加载"
+        if is_cached:
             print(f"  [v3.0 模型缓存加载] 从 {report['path']} 加载已训练模型")
+            if report.get("cv_mean_accuracy"):
+                print(f"  交叉验证准确率: {report['cv_mean_accuracy']:.1%} "
+                      f"({report.get('n_samples', '?')}条CED标注微博)")
+            if report.get("feature_dimensions"):
+                dims = report["feature_dimensions"]
+                print(f"  TF-IDF文本特征: {dims['tfidf_text_features']}维  "
+                      f"元数据特征: {dims['metadata_features']}维")
+            if report.get("top_tfidf_text_features"):
+                print(f"  最强虚假文本模式: {list(report['top_tfidf_text_features'].keys())[:5]}")
         else:
-            print(f"  [v3.0 TF-IDF+元数据联合训练] CED数据集, CV准确率={report['cv_mean_accuracy']:.1%}")
+            print(f"  [v3.0 TF-IDF+元数据联合训练] CED数据集, "
+                  f"CV准确率={report['cv_mean_accuracy']:.1%}")
             print(f"  TF-IDF文本特征: {report['feature_dimensions']['tfidf_text_features']}维")
             print(f"  元数据特征: {report['feature_dimensions']['metadata_features']}维")
-        print(f"  最强虚假文本模式: {list(report['top_tfidf_text_features'].keys())[:5]}")
+            print(f"  最强虚假文本模式: {list(report['top_tfidf_text_features'].keys())[:5]}")
     except Exception:
         detector = FakeDetector(auto_train=True)
         print("  [回退模式] 纯数值特征训练")

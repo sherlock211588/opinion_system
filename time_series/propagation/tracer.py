@@ -532,11 +532,16 @@ class PropagationTracer:
         }
 
     def _build_timeline(self, nodes: list[dict[str, Any]]) -> list[dict[str, Any]]:
-        sorted_nodes = sorted(nodes, key=lambda n: n["post_time"])
+        sorted_nodes = sorted(nodes, key=lambda n: n["post_time"] if isinstance(n["post_time"], datetime) else n["post_time"])
         timeline = []
         for n in sorted_nodes:
+            pt = n["post_time"]
+            if isinstance(pt, str):
+                time_str = pt
+            else:
+                time_str = pt.strftime("%Y-%m-%d %H:%M")
             timeline.append({
-                "time": n["post_time"].strftime("%Y-%m-%d %H:%M"),
+                "time": time_str,
                 "account": n["account_name"],
                 "source": n.get("source", ""),
                 "action": "首次曝光" if n.get("parent_node_id") is None else f"转发自{n.get('parent_node_id')}",
@@ -616,7 +621,7 @@ if __name__ == "__main__":
     srcs = result["source_nodes"]
     print(f"\n源头节点 ({len(srcs)}个):")
     for s in srcs:
-        print(f"  [{s['node_id']}] {s['account_name']} ({s['platform']}) — {s['post_time']}")
+        print(f"  [{s['node_id']}] {s['account_name']} ({s['source']}) — {s['post_time']}")
 
     # 图统计
     gs = result["propagation_graph"]

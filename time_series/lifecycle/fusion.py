@@ -12,7 +12,11 @@ def remove_diurnal_cycle(records: list[dict[str, Any]]) -> tuple[list[dict[str, 
     hourly_sum = [0.0] * 24
     hourly_count = [0] * 24
     for r in records:
-        h = r["time"].hour
+        t = r["time"]
+        if isinstance(t, str):
+            from datetime import datetime
+            t = datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
+        h = t.hour
         hourly_sum[h] += r.get("news_count", 0)
         hourly_count[h] += 1
 
@@ -31,10 +35,14 @@ def remove_diurnal_cycle(records: list[dict[str, Any]]) -> tuple[list[dict[str, 
 
     decycled = []
     for r in records:
-        factor = hourly_factor[r["time"].hour] if hourly_factor[r["time"].hour] > 0.1 else 1.0
+        t = r["time"]
+        if isinstance(t, str):
+            from datetime import datetime
+            t = datetime.strptime(t, "%Y-%m-%d %H:%M:%S")
+        factor = hourly_factor[t.hour] if hourly_factor[t.hour] > 0.1 else 1.0
         rec = dict(r)
         rec["news_count"] = int(round(r.get("news_count", 0) / factor))
-        rec["_raw_article_count"] = r.get("news_count", 0)
+        rec["_raw_news_count"] = r.get("news_count", 0)
         rec["_diurnal_factor"] = round(factor, 3)
         decycled.append(rec)
 

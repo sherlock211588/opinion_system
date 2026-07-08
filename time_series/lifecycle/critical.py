@@ -35,8 +35,10 @@ def detect_critical_slowing_down(composite_index: list[int]) -> dict[str, Any]:
         ar1 = 0.0
 
     recovery_lag = 0
-    for i in range(len(recent) - 1, max(0, len(recent) - window), -1):
-        if i > 0 and abs(composite_index[-1] - composite_index[i]) < 0.3 * recent_arr[-1]:
+    # 从倒数第2个元素向前扫描最近 window 个点，统计与当前值差异<30%的连续点数
+    n_full = len(composite_index)
+    for i in range(n_full - 2, max(0, n_full - window - 1), -1):
+        if abs(composite_index[-1] - composite_index[i]) < 0.3 * recent_arr[-1]:
             recovery_lag += 1
         else:
             break
