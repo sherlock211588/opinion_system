@@ -7,6 +7,7 @@
 
 import json
 import sys
+import csv as _csv
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -51,6 +52,18 @@ articles_valid = [a for a in articles_all if a["event_id"] != "EVT_NOISE"]
 ARTICLES_BY_EVENT: dict[str, list[dict]] = defaultdict(list)
 for a in articles_valid:
     ARTICLES_BY_EVENT[a["event_id"]].append(a)
+
+# --- 加载 URL 映射（从 cleaned_data_cn.csv） ---
+URL_MAP: dict[str, str] = {}
+_url_csv = ROOT / "3.data" / "cleaned_data_cn(2).csv"
+if _url_csv.exists():
+    with open(_url_csv, "r", encoding="utf-8-sig") as _f:
+        for _row in _csv.DictReader(_f):
+            _nid = _row.get("news_id", "").strip()
+            _u = _row.get("url", "").strip()
+            if _nid and _u:
+                URL_MAP[_nid] = _u
+    print(f"[server] URL map: {len(URL_MAP)} articles with links")
 
 # --- 加载 1.data (传播数据) ---
 prop_path = ROOT / "1.data" / "backend_propagation_nodes.json"
@@ -171,6 +184,7 @@ def get_event(event_id: str) -> dict[str, Any]:
                 "title":             a.get("title", ""),
                 "cleaned_text":      a.get("text", ""),
                 "source":            a.get("source", ""),
+                "url":               a.get("url", "") or URL_MAP.get(a.get("news_id", ""), ""),
                 "publish_time":      a.get("publish_time", ""),
                 "sentiment_intensity": 0.3 if a.get("sentiment") == "positive"
                                      else 0.7 if a.get("sentiment") == "negative"

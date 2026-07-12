@@ -48,6 +48,14 @@ class Pipeline:
         model, self._train_report = get_or_train_model()
         self.fake_detector = FakeDetector(model=model)
 
+    @staticmethod
+    def _get_latest_time(event_data: dict[str, Any]) -> str:
+        """取事件 timeseries 最后一条的时间"""
+        ts = event_data.get("timeseries", [])
+        if not ts:
+            return ""
+        return str(ts[-1].get("time", ""))
+
     # ================================================================
     #  单事件报表
     # ================================================================
@@ -153,6 +161,7 @@ class Pipeline:
                         "article_id": art.get("id", art.get("article_id", "")),
                         "title": art.get("title", ""),
                         "source": art.get("source", ""),
+                        "url": art.get("url", ""),
                         "publish_time": str(art.get("publish_time", "")),
                         "verdict": fc["verdict"],
                         "confidence_score": fc["confidence_score"],
@@ -234,6 +243,7 @@ class Pipeline:
                 "event_id": eid,
                 "event_title": event_data.get("event_title", ""),
                 "category": event_data.get("category", ""),
+                "event_time": self._get_latest_time(event_data),
                 "sentiment_distribution": event_data.get("sentiment_distribution", {}),
                 "current_stage": lifecycle["current_stage"],
                 "current_heat_index": lifecycle["current_heat_index"],
