@@ -248,34 +248,45 @@ class FakeDetectorTrainer:
         # Step 3: 拼接
         X_combined = np.hstack([X_tfidf, X_meta_scaled])
 
-        # Pipeline
-        pipeline = Pipeline([
+        # === 联合模型 (2008维: TF-IDF + 元数据) ===
+        pipeline_combined = Pipeline([
             ("classifier", LogisticRegression(
                 penalty="l2", solver="lbfgs", max_iter=2000, random_state=42,
             )),
         ])
-
         param_grid = {"classifier__C": [0.01, 0.1, 0.5, 1.0, 5.0, 10.0]}
         cv = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
-        grid = GridSearchCV(pipeline, param_grid, cv=cv, scoring="accuracy", n_jobs=-1)
-        grid.fit(X_combined, y_arr)
+        grid_combined = GridSearchCV(pipeline_combined, param_grid, cv=cv, scoring="accuracy", n_jobs=-1)
+        grid_combined.fit(X_combined, y_arr)
 
-        # 打包模型为统一接口
-        best_pipeline = grid.best_estimator_
+        # === 纯文本模型 (2000维: 仅 TF-IDF，不依赖元数据) ===
+        pipeline_text = Pipeline([
+            ("classifier", LogisticRegression(
+                penalty="l2", solver="lbfgs", max_iter=2000, random_state=42,
+            )),
+        ])
+        grid_text = GridSearchCV(pipeline_text, param_grid, cv=cv, scoring="accuracy", n_jobs=-1)
+        grid_text.fit(X_tfidf, y_arr)
+
+        # 打包模型
+        best_combined = grid_combined.best_estimator_
+        best_text = grid_text.best_estimator_
         model_package = {
-            "type": "text+meta",
-            "pipeline": best_pipeline,
+            "type": "dual",
+            "combined_pipeline": best_combined,
+            "text_only_pipeline": best_text,
             "tfidf": tfidf,
             "scaler": scaler,
             "extractor": self.extractor,
         }
 
-        lr = best_pipeline.named_steps["classifier"]
+        lr_combined = best_combined.named_steps["classifier"]
+        lr_text = best_text.named_steps["classifier"]
         n_tfidf = X_tfidf.shape[1]
         n_meta = X_meta.shape[1]
 
-        # 特征重要性：TF-IDF 权重绝对值最大的前10个词
-        tfidf_weights = lr.coef_[0][:n_tfidf]
+        # 特征重要性：TF-IDF 权重（联合模型的文本部分）
+        tfidf_weights = lr_combined.coef_[0][:n_tfidf]
         top_tfidf_idx = np.argsort(np.abs(tfidf_weights))[-10:][::-1]
         id2word = {v: k for k, v in tfidf.vocabulary_.items()}
         top_tfidf_features = {
@@ -283,16 +294,19 @@ class FakeDetectorTrainer:
             for idx in top_tfidf_idx
         }
 
-        meta_weights = dict(zip(self.extractor.FEATURE_NAMES, lr.coef_[0][n_tfidf:]))
+        meta_weights = dict(zip(self.extractor.FEATURE_NAMES, lr_combined.coef_[0][n_tfidf:]))
 
         report = {
-            "cv_mean_accuracy": round(grid.best_score_, 4),
-            "cv_std": round(grid.cv_results_["std_test_score"][grid.best_index_], 4),
-            "best_C": grid.best_params_["classifier__C"],
+            "cv_mean_accuracy": round(grid_combined.best_score_, 4),
+            "cv_std": round(float(grid_combined.cv_results_["std_test_score"][grid_combined.best_index_]), 4),
+            "best_C_combined": grid_combined.best_params_["classifier__C"],
+            "text_only_cv_accuracy": round(grid_text.best_score_, 4),
+            "text_only_best_C": grid_text.best_params_["classifier__C"],
             "feature_dimensions": {
                 "tfidf_text_features": n_tfidf,
                 "metadata_features": n_meta,
-                "total": n_tfidf + n_meta,
+                "combined_total": n_tfidf + n_meta,
+                "text_only_total": n_tfidf,
             },
             "top_tfidf_text_features": top_tfidf_features,
             "metadata_feature_weights": meta_weights,
@@ -401,37 +415,97 @@ def get_or_train_model(
     """
     meta_path = model_path.replace(".joblib", "_meta.json")
 
-    if not force_retrain and os.path.exists(model_path):
-        trainer = FakeDetectorTrainer()
-        model = trainer.load_model(model_path)
+    # 检查 CHEF 数据是否可用（用于判断是否需要重训）
+    chef_data_available = (Path(__file__).resolve().parent.parent.parent
+                           / "data" / "CHEF" / "raw_data" / "CHEF" / "train.json").exists()
 
-        # 优先从元数据 JSON 加载训练报告
-        if os.path.exists(meta_path):
+    if not force_retrain and os.path.exists(model_path):
+        # 如果 CHEF 数据可用，检查缓存模型是否已包含 CHEF
+        cache_needs_update = False
+        if chef_data_available and os.path.exists(meta_path):
             import json
             with open(meta_path, "r", encoding="utf-8") as f:
-                meta = json.load(f)
-            meta["source"] = "缓存加载"
-            meta["path"] = model_path
-            return model, meta
+                cached_meta = json.load(f)
+            training_data = cached_meta.get("training_data", "")
+            if "CHEF" not in training_data:
+                cache_needs_update = True
 
-        # 兜底：从模型对象中提取可用信息
-        meta_fallback = {"source": "缓存加载", "path": model_path}
-        if isinstance(model, dict) and model.get("type") == "text+meta":
-            if "tfidf" in model:
-                meta_fallback["feature_dimensions"] = {
-                    "tfidf_text_features": len(model["tfidf"].vocabulary_),
-                    "metadata_features": 8,
-                    "total": len(model["tfidf"].vocabulary_) + 8,
-                }
-            meta_fallback["model_type"] = "text+meta"
-        return model, meta_fallback
+        if not cache_needs_update:
+            trainer = FakeDetectorTrainer()
+            model = trainer.load_model(model_path)
 
-    # 训练
+            # 优先从元数据 JSON 加载训练报告
+            if os.path.exists(meta_path):
+                import json
+                with open(meta_path, "r", encoding="utf-8") as f:
+                    meta = json.load(f)
+                meta["source"] = "缓存加载"
+                meta["path"] = model_path
+                return model, meta
+
+            # 兜底：从模型对象中提取可用信息
+            meta_fallback = {"source": "缓存加载", "path": model_path}
+            model_type = model.get("type", "") if isinstance(model, dict) else ""
+            if isinstance(model, dict) and model_type in ("text+meta", "dual"):
+                if "tfidf" in model:
+                    meta_fallback["feature_dimensions"] = {
+                        "tfidf_text_features": len(model["tfidf"].vocabulary_),
+                        "metadata_features": 8,
+                        "total": len(model["tfidf"].vocabulary_) + 8,
+                    }
+                meta_fallback["model_type"] = model_type
+            return model, meta_fallback
+
+    # 训练：加载 CED + CHEF 联合训练
     from .ced_loader import load_ced_dataset
 
-    texts, labels, metadata_list, stats = load_ced_dataset()
+    ced_texts, ced_labels, ced_metadata, ced_stats = load_ced_dataset()
+
+    data_parts = [f"CED({ced_stats['total_loaded']}条微博, "
+                  f"谣言{ced_stats['rumors']}/非谣言{ced_stats['non_rumors']})"]
+
+    # 尝试加载 CHEF 数据集
+    chef_loaded = False
+    try:
+        from .chef_loader import load_chef_dataset
+        chef_texts, chef_labels, chef_metadata, chef_stats = load_chef_dataset()
+        if chef_stats["total_loaded"] >= 500:
+            all_texts = ced_texts + chef_texts
+            all_labels = ced_labels + chef_labels
+            all_metadata = ced_metadata + chef_metadata
+            chef_loaded = True
+            data_parts.append(
+                f"CHEF({chef_stats['total_loaded']}条新闻, "
+                f"虚假{chef_stats['refuted']}/可信{chef_stats['supported']}, "
+                f"跳过NIE{chef_stats['nie_skipped']})"
+            )
+        else:
+            all_texts, all_labels, all_metadata = ced_texts, ced_labels, ced_metadata
+    except (FileNotFoundError, ImportError) as e:
+        all_texts, all_labels, all_metadata = ced_texts, ced_labels, ced_metadata
+
+    data_source_str = " + ".join(data_parts)
     trainer = FakeDetectorTrainer()
-    model, report = trainer.train_with_text(texts, metadata_list, labels)
+    model, report = trainer.train_with_text(all_texts, all_metadata, all_labels)
+
+    # 更新报告中的数据来源信息
+    report["data_source"] = {"source": data_source_str}
+    if chef_loaded:
+        report["data_source"]["ced"] = {
+            "n_samples": ced_stats["total_loaded"],
+            "rumors": ced_stats["rumors"],
+            "non_rumors": ced_stats["non_rumors"],
+        }
+        report["data_source"]["chef"] = {
+            "n_samples": chef_stats["total_loaded"],
+            "refuted": chef_stats["refuted"],
+            "supported": chef_stats["supported"],
+            "nie_skipped": chef_stats["nie_skipped"],
+            "domains": dict(sorted(
+                chef_stats["domains"].items(),
+                key=lambda x: x[1], reverse=True,
+            )[:8]),
+        }
 
     # 确保缓存目录存在
     os.makedirs(os.path.dirname(model_path), exist_ok=True)
@@ -442,13 +516,17 @@ def get_or_train_model(
     meta_data = {
         "cv_mean_accuracy": report["cv_mean_accuracy"],
         "cv_std": report["cv_std"],
-        "best_C": report["best_C"],
+        "best_C_combined": report["best_C_combined"],
+        "text_only_cv_accuracy": report.get("text_only_cv_accuracy", 0),
+        "text_only_best_C": report.get("text_only_best_C", 0),
         "feature_dimensions": report["feature_dimensions"],
         "top_tfidf_text_features": report["top_tfidf_text_features"],
         "metadata_feature_weights": report["metadata_feature_weights"],
         "n_samples": report["n_samples"],
         "class_balance": report["class_balance"],
         "data_source": report["data_source"],
+        "training_data": data_source_str,
+        "model_type": "dual",
     }
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(meta_data, f, ensure_ascii=False, indent=2)
@@ -531,7 +609,8 @@ class FakeDetector:
             self.train()
 
         # 判断模型类型
-        if isinstance(self.model, dict) and self.model.get("type") == "text+meta":
+        model_type = self.model.get("type", "") if isinstance(self.model, dict) else ""
+        if model_type in ("text+meta", "dual"):
             result = self._evaluate_text_meta(text, metadata)
         else:
             result = self._evaluate_numeric(text, metadata)
@@ -624,36 +703,61 @@ class FakeDetector:
     def _evaluate_text_meta(
         self, text: str, metadata: dict[str, Any]
     ) -> dict[str, Any]:
-        """TF-IDF + 元数据联合预测"""
+        """双模型路由：有元数据用联合模型，无元数据用纯文本模型。
+
+        纯文本模型仅用 TF-IDF 2000维，不接触元数据，
+        因此不会因为 source_followers=0 等默认值而系统性偏判假。
+        """
         pkg = self.model
-        pipeline = pkg["pipeline"]
         tfidf = pkg["tfidf"]
         scaler = pkg["scaler"]
+        extractor = pkg["extractor"]
 
         # TF-IDF 特征
         X_tfidf = tfidf.transform([text]).toarray()
-        # 元数据特征
-        X_meta = self.extractor.extract(text, metadata).reshape(1, -1)
-        X_meta_scaled = scaler.transform(X_meta)
-        # 拼接
-        X_combined = np.hstack([X_tfidf, X_meta_scaled])
 
-        proba = pipeline.predict_proba(X_combined)[0]
+        # 判断是否有真实的元数据（非默认值）
+        has_meta = (metadata.get("source_verified") is not None
+                    and (metadata.get("source_followers", 0) > 0
+                         or metadata.get("similar_report_count", 0) > 0))
+        original_text_len = len(text)
+
+        if has_meta:
+            # === 联合模型：TF-IDF + 元数据 ===
+            pipeline = pkg["combined_pipeline"]
+            X_meta = extractor.extract(text, metadata).reshape(1, -1)
+            X_meta_scaled = scaler.transform(X_meta)
+            X_combined = np.hstack([X_tfidf, X_meta_scaled])
+            proba = pipeline.predict_proba(X_combined)[0]
+            model_used = "combined"
+
+            lr = pipeline.named_steps["classifier"]
+            n_tfidf = X_tfidf.shape[1]
+            meta_weights = lr.coef_[0][n_tfidf:]
+            meta_features = extractor.extract(text, metadata)
+        else:
+            # === 纯文本模型：仅 TF-IDF ===
+            pipeline = pkg["text_only_pipeline"]
+            proba = pipeline.predict_proba(X_tfidf)[0]
+            model_used = "text_only"
+
+            lr = pipeline.named_steps["classifier"]
+            n_tfidf = X_tfidf.shape[1]
+            # 纯文本模型没有元数据权重，用占位符
+            meta_weights = np.zeros(len(extractor.FEATURE_NAMES))
+            meta_features = np.zeros(len(extractor.FEATURE_NAMES))
+
         fake_prob = float(proba[0])
         real_prob = float(proba[1])
 
         # 元数据特征贡献
-        lr = pipeline.named_steps["classifier"]
-        n_tfidf = X_tfidf.shape[1]
-        meta_weights = lr.coef_[0][n_tfidf:]
-        meta_features = self.extractor.extract(text, metadata)
-
         contributions = {}
         risk_factors = []
-        for i, name in enumerate(self.extractor.FEATURE_NAMES):
+        for i, name in enumerate(extractor.FEATURE_NAMES):
             contrib = float(meta_features[i] * meta_weights[i])
             contributions[name] = round(contrib, 3)
-            if contrib < -0.05:
+            if contrib < -0.05 and has_meta:
+                # 只有元数据真实时才出风险因素
                 risk_factors.append(
                     (contrib, self._explain_feature(name, meta_features[i]))
                 )
@@ -661,7 +765,7 @@ class FakeDetector:
         risk_factors.sort(key=lambda x: x[0])
         risk_messages = [msg for _, msg in risk_factors[:5] if msg]
 
-        # TF-IDF 最强的文本信号
+        # TF-IDF 文本信号（两个模型共用同一套 TF-IDF）
         tfidf_weights = lr.coef_[0][:n_tfidf]
         top_neg_idx = np.argsort(tfidf_weights)[:20]
         id2word = {v: k for k, v in tfidf.vocabulary_.items()}
@@ -671,22 +775,34 @@ class FakeDetector:
                 word = id2word.get(int(idx), "")
                 if len(word) >= 2:
                     fake_text_signals.append(
-                        f"文本模式\'{word}\'与虚假信息强相关"
+                        f"文本模式'{word}'与虚假信息强相关"
                     )
         risk_messages = fake_text_signals[:3] + risk_messages[:3]
 
-        # SHAP 解释（基于 I-FLASH, Dua et al., 2023）
-        try:
-            shap_explanation = self._explain_with_shap(
-                X_combined, lr, n_tfidf, tfidf, meta_features,
-            )
-            risk_messages = [shap_explanation["summary"]] + risk_messages
-        except Exception:
-            shap_explanation = None
+        # SHAP 解释（仅联合模型）
+        shap_explanation = None
+        if has_meta:
+            try:
+                X_meta_scaled_for_shap = scaler.transform(
+                    extractor.extract(text, metadata).reshape(1, -1)
+                )
+                X_combined_full = np.hstack([X_tfidf, X_meta_scaled_for_shap])
+                shap_explanation = self._explain_with_shap(
+                    X_combined_full, lr, n_tfidf, tfidf, extractor.extract(text, metadata),
+                )
+                if shap_explanation:
+                    risk_messages = [shap_explanation["summary"]] + risk_messages
+            except Exception:
+                pass
 
-        result = self._build_result(real_prob, fake_prob, contributions, risk_messages)
+        metadata_with_text = dict(metadata)
+        metadata_with_text["_text_for_heuristic"] = text
+        metadata_with_text["_text_len"] = original_text_len
+        metadata_with_text["_model_used"] = model_used
+        result = self._build_result(real_prob, fake_prob, contributions, risk_messages, metadata_with_text)
         if shap_explanation:
             result["shap_explanation"] = shap_explanation
+        result["model_used"] = model_used
         return result
 
     def _evaluate_numeric(
@@ -752,7 +868,10 @@ class FakeDetector:
         except Exception:
             shap_exp = None
 
-        result = self._build_result(real_prob, fake_prob, contributions, risk_messages)
+        metadata_with_text = dict(metadata)
+        metadata_with_text["_text_for_heuristic"] = text
+        metadata_with_text["_text_len"] = len(text)
+        result = self._build_result(real_prob, fake_prob, contributions, risk_messages, metadata_with_text)
         if shap_exp:
             result["shap_explanation"] = shap_exp
         return result
@@ -813,6 +932,7 @@ class FakeDetector:
     def _build_result(
         self, real_prob: float, fake_prob: float,
         contributions: dict[str, float], risk_messages: list[str],
+        metadata: dict[str, Any] | None = None,
     ) -> dict[str, Any]:
         """
         三元分类：可信 / 待验证 / 疑似虚假
@@ -826,41 +946,85 @@ class FakeDetector:
             类型A："缺乏证据" → 待验证（信息真空，不是虚假）
             类型B："存在负面证据" → 疑似虚假（有具体可疑信号）
 
-        判定规则：
-          1. 模型高度确信为真 (real_prob ≥ 0.70) → 可信
-          2. 模型高度确信为假 (fake_prob ≥ 0.70) → 疑似虚假
-          3. 两方都不确信 (不确定性高)        → 待验证
-          4. 边缘情况：虚假概率 > 可信概率但都不高 → 待验证（暂存疑）
+        判定规则（v3.1 联合训练校准）：
+          1. real_prob ≥ 0.55 + 元数据信号支持 → 可信
+          2. fake_prob ≥ 0.70 + 元数据弱 → 疑似虚假
+          3. fake_prob ≥ 0.70 + 元数据强 → 待验证（文本判假但信源可靠，证据矛盾）
+          4. 其他 → 待验证
         """
+        if metadata is None:
+            metadata = {}
+
         confidence = real_prob * 100
         uncertainty = 1.0 - abs(real_prob - fake_prob)
 
-        # 正面元数据信号强度
-        verified_c = contributions.get("source_is_verified", 0)
-        multi_c = contributions.get("similar_report_count", 0)
-        link_c = contributions.get("has_url", 0)
-        followers_c = contributions.get("log_follower_count", 0)
-        positive_meta = sum(1 for v in [verified_c, multi_c, link_c] if v > 0.01)
+        # 从原始元数据判断信源可靠性（不看模型权重，看真实值）
+        source_verified = bool(metadata.get("source_verified", False))
+        followers = int(metadata.get("source_followers", 0))
+        similar_reports = int(metadata.get("similar_report_count", 0))
+        has_url = bool(metadata.get("has_url", False))
 
-        # 负面元数据信号强度
-        excl_c = contributions.get("exclamation_density", 0)
-        negative_text_count = sum(1 for msg in risk_messages if "文本模式" in msg)
+        # 元数据充分度：有多少个特征是真实值而非默认值
+        metadata_available = sum([
+            metadata.get("source_verified") is not None and not (not source_verified and followers == 0),
+            followers > 0,
+            similar_reports > 0,
+        ])
+        # 元数据缺失时，提高判假阈值（避免"信息不足"被误判为"虚假"）
+        if metadata_available < 2:
+            fake_threshold = 0.85   # 元数据不足 → 更保守
+        else:
+            fake_threshold = 0.70   # 元数据充足 → 正常阈值
 
-        # 核心逻辑：TF-IDF 的2000维文本特征容易主导预测，
-        # 当元数据信号弱时，文本模型的过度自信需要被修正。
-        # "信息不足"不同于"证据指向虚假"。
+        positive_signals = sum([
+            source_verified,
+            followers >= 100_000,
+            similar_reports >= 5,
+            has_url,
+        ])
+        has_strong_source = source_verified or followers >= 1_000_000
 
-        if real_prob >= 0.70 and positive_meta >= 1:
+        # 文本包含不确定性表达（"不清楚"、"听说"、"等通知"等）
+        # 这类文本不应被判为"疑似虚假"，因为作者自己也在表达不确定
+        uncertainty_markers = ["不清楚", "等通知", "听说", "据说", "可能", "也许",
+                               "不确定", "不知", "求证", "真的假的", "求辟谣"]
+        text_lower = metadata.get("_text_for_heuristic", "")
+        has_uncertainty_language = any(m in text_lower for m in uncertainty_markers)
+
+        # 纯文本模型 vs 联合模型使用不同的可信门槛
+        # 纯文本模型不受元数据默认值误导，其 real_prob 基于真实文本信号，可以放宽
+        model_used = metadata.get("_model_used", "combined")
+        if model_used == "text_only":
+            real_trusted = 0.50   # 纯文本：50%就说可信
+            real_confident = 0.65
+        else:
+            real_trusted = 0.55   # 联合模型：55%
+            real_confident = 0.70
+
+        if real_prob >= real_trusted and positive_signals >= 1:
             verdict = "可信"
-        elif fake_prob >= 0.70:
-            if negative_text_count >= 2 and excl_c < -0.05:
-                verdict = "疑似虚假"
-            elif positive_meta >= 2:
+        elif real_prob >= real_confident:
+            verdict = "可信"
+        elif fake_prob >= fake_threshold:
+            if has_strong_source or has_uncertainty_language:
                 verdict = "待验证"
             else:
-                verdict = "待验证"
+                verdict = "疑似虚假"
+        elif fake_prob > real_prob and fake_prob >= 0.55 and real_prob < 0.45:
+            verdict = "疑似虚假" if not (has_strong_source or has_uncertainty_language) else "待验证"
         else:
             verdict = "待验证"
+
+        # 方案2: 后置降级 — 短文本+元数据不足的"疑似虚假"降为"待验证"
+        # 原因是无法区分"文本短因为假"还是"文本短因为2号只存了标题"
+        text_len = metadata.get("_text_len", 0)
+        if verdict == "疑似虚假" and text_len < 50 and metadata_available < 2:
+            verdict = "待验证"
+            downgrade_reason = "文本较短且缺少发布者信息，判定降级为待验证"
+        elif verdict == "疑似虚假" and metadata_available < 2:
+            downgrade_reason = "缺少发布者元数据，建议人工复核"
+        else:
+            downgrade_reason = None
 
         # 额外字段："信息充分度" — 有多少有效信号可供判断
         # 用于前端展示"为什么是待验证？"
@@ -869,20 +1033,27 @@ class FakeDetector:
         evidence_signals += 1 if contributions.get("similar_report_count", 0) > 0.01 else 0
         has_text_signal = len(risk_messages) > 0
 
-        information_sufficiency = "充分" if evidence_signals >= 2 and has_text_signal else (
-            "不足" if evidence_signals == 0 and not has_text_signal else "一般"
-        )
+        if metadata_available >= 2:
+            information_sufficiency = "充分" if evidence_signals >= 2 and has_text_signal else (
+                "不足" if evidence_signals == 0 and not has_text_signal else "一般"
+            )
+        else:
+            information_sufficiency = "元数据不足"
 
-        return {
+        result = {
             "confidence_score": round(confidence, 1),
             "fake_probability": round(fake_prob * 100, 1),
             "uncertainty": round(uncertainty, 3),
             "verdict": verdict,
             "information_sufficiency": information_sufficiency,
+            "metadata_available": metadata_available,
             "score_breakdown": self._contributions_to_scores(contributions),
             "risk_factors": risk_messages,
             "feature_contributions": contributions,
         }
+        if downgrade_reason:
+            result["downgrade_reason"] = downgrade_reason
+        return result
 
     def _contributions_to_scores(
         self, contributions: dict[str, float]

@@ -8,11 +8,20 @@ from .stage import STAGE_DECLINING, STAGE_LATENT
 
 def detect_resurgence(
     composite_index: list[int], times: list[datetime], current_stage: str,
+    data_interval_hours: int = 6,
 ) -> dict[str, Any]:
-    """检测衰退后的二次爆发（反转/续集/新料导致热度重新飙升）"""
+    """检测衰退后的二次爆发（反转/续集/新料导致热度重新飙升）
+
+    data_interval_hours: 用于自动调整最小数据点门槛。
+    """
+    min_points = max(6, 12 // data_interval_hours)  # 至少6个点，6h间隔需36h
     n = len(composite_index)
-    if n < 12:
-        return {"is_resurgence": False, "reason": "数据不足12个点"}
+    if n < min_points:
+        return {"is_resurgence": False, "reason": f"数据不足{min_points}个点"}
+    # 非零点太少不跑（稀疏数据下0→3→0→5的抖动不是二次爆发）
+    nonzero_count = sum(1 for v in composite_index if v > 0)
+    if nonzero_count < 12:
+        return {"is_resurgence": False, "reason": f"有效信号点仅{nonzero_count}个，不足以判断二次爆发"}
     if current_stage not in (STAGE_DECLINING, STAGE_LATENT):
         return {"is_resurgence": False, "reason": f"当前为{current_stage}"}
 
@@ -23,7 +32,11 @@ def detect_resurgence(
     first_peak_idx = max(range(len(first_half)), key=lambda i: first_half[i])
     first_peak_value = first_half[first_peak_idx]
 
-    if n - first_peak_idx < 12:
+    # 第一轮峰值必须足够显著（与 fusion 的 _norm default_max=15 对齐）
+    if first_peak_value < 30:
+        return {"is_resurgence": False, "reason": f"第一轮峰值({first_peak_value})过低，非真实爆发"}
+
+    if n - first_peak_idx < min_points:
         return {"is_resurgence": False, "reason": "第一峰后数据不足"}
 
     post_first_peak = composite_index[first_peak_idx:]
@@ -31,20 +44,24 @@ def detect_resurgence(
     trough_value = post_first_peak[trough_rel_idx]
     trough_idx = first_peak_idx + trough_rel_idx
 
+    # 谷底不能是零——那说明只是报道断层，不是真正的舆论低谷
+    if trough_value == 0:
+        return {"is_resurgence": False, "reason": f"谷底为零，非真实衰退—反弹模式"}
+
     post_trough = composite_index[trough_idx:]
     post_trough_peak = max(post_trough)
     post_trough_peak_idx = trough_idx + post_trough.index(post_trough_peak)
 
-    rebound_ratio = post_trough_peak / trough_value if trough_value > 0 else 99.0
+    rebound_ratio = post_trough_peak / trough_value
     absolute_gain = post_trough_peak - trough_value
-    is_significant = rebound_ratio >= 1.35
-    is_meaningful = absolute_gain >= 8
+    is_significant = rebound_ratio >= 3.0      # 反弹需≥3倍
+    is_meaningful = absolute_gain >= 45          # 绝对增量≥45（与fusion default_max=15对齐）
 
     conditions = {"first_peak_in_front_half": first_peak_idx < n * 0.65, "significant_rebound": is_significant, "meaningful_absolute_gain": is_meaningful}
 
     if all(conditions.values()):
         rebound_score = min(1.0, (rebound_ratio - 1.0) / 3.0)
-        gain_score = min(1.0, absolute_gain / 30.0)
+        gain_score = min(1.0, absolute_gain / 100.0)
         confidence = round(0.55 + 0.25 * rebound_score + 0.20 * gain_score, 3)
         return {
             "is_resurgence": True, "confidence": min(confidence, 0.95),

@@ -23,8 +23,12 @@ from typing import Any
 # —— 可调参数 ——
 _ALPHA_CANDIDATES = [0.05, 0.10, 0.20, 0.30, 0.50, 0.70]
 _BETA_CANDIDATES  = [0.02, 0.05, 0.10, 0.20, 0.35]
-_SHORT_WINDOW      = 12     # 路径1: 最近12小时
 _LONG_WINDOW_RATIO = 0.60   # 路径2: 用后60%数据（更长的趋势参考）
+
+
+def _get_short_window(data_interval_hours: int) -> int:
+    """根据数据间隔自动调整短期窗口（覆盖最近~12小时）"""
+    return max(2, 12 // data_interval_hours)
 
 
 def _run_holt(
@@ -72,33 +76,36 @@ def _auto_tune(counts: list[float]) -> tuple[float, float]:
 def forecast_holt(
     counts: list[int],
     hours: int = 24,
+    data_interval_hours: int = 6,
     alpha: float | None = None,
     beta: float | None = None,
 ) -> list[dict[str, Any]]:
     """
     自适应 Holt 双指数平滑预测。
 
+    data_interval_hours: 每条数据之间的时间间隔（小时）。
+                         用于自动缩放窗口和调整输出标签。
+
     流程：
       1. 自动搜最优 (alpha, beta) — 除非手动指定
-      2. 路径1 (Short):  最近 _SHORT_WINDOW 个点跑 Holt
+      2. 路径1 (Short):  最近窗口跑 Holt
       3. 路径2 (Long):   更长段跑 Holt（捕捉宏观趋势）
       4. 加权融合：权重反比于各路径的 MSE
       5. 输出预测 + 95% 置信区间
-
-    返回格式不变，前端接口完全兼容。
     """
     n = len(counts)
     if n < 2:
         return []
 
     vals = [float(c) for c in counts]
+    short_window = _get_short_window(data_interval_hours)
 
     # Step 1: 自动选参
     if alpha is None or beta is None:
         alpha, beta = _auto_tune(vals)
 
     # Step 2: 路径1 (Short) — 最近窗口
-    short_n = min(_SHORT_WINDOW, n)
+    short_n = min(short_window, n)
     short_segment = vals[-short_n:]
     s_level, s_trend, s_mse, s_std = _run_holt(short_segment, alpha, beta)
 
@@ -106,31 +113,25 @@ def forecast_holt(
     long_start = max(0, int(n * (1 - _LONG_WINDOW_RATIO)))
     long_segment = vals[long_start:]
     if len(long_segment) < 3:
-        # 数据太少，只用 Short 一条线
-        long_segment = vals  # 回退到全量
+        long_segment = vals
     l_level, l_trend, l_mse, l_std = _run_holt(long_segment, alpha, beta)
 
-    # Step 4: 加权融合（权重反比于 MSE，MSE 越小权重越大）
+    # Step 4: 加权融合（权重反比于 MSE）
     eps = 1e-6
     w_s = 1.0 / (s_mse + eps)
     w_l = 1.0 / (l_mse + eps)
     w_total = w_s + w_l
-    w_s /= w_total  # 归一化
+    w_s /= w_total
     w_l /= w_total
 
-    # 特殊处理：短期波动远大于长期波动时，多信长期线
-    # 这是 2025 自适应论文的核心思想——"找到历史相似模式来纠偏"
     if short_n >= 6 and len(long_segment) >= 6:
         short_std = math.sqrt(s_mse) if s_mse > 0 else 0.0
         long_std = math.sqrt(l_mse) if l_mse > 0 else 0.0
         if long_std > 0 and short_std / long_std > 2.5:
-            # 短期剧烈波动，多信长期（重新分配权重）
             w_s, w_l = 0.35, 0.65
 
     fused_level = w_s * s_level + w_l * l_level
     fused_trend = w_s * s_trend + w_l * l_trend
-
-    # 残差标准差用加权
     fused_std = w_s * s_std + w_l * l_std
 
     # Step 5: 生成预测
@@ -138,8 +139,10 @@ def forecast_holt(
     for h in range(1, hours + 1):
         val = max(0, fused_level + h * fused_trend)
         pred_std = fused_std * math.sqrt(1 + h / n)
+        step_hours = h * data_interval_hours
         predicted.append({
-            "hours_from_now": h,
+            "steps_from_now": h,
+            "hours_from_now": step_hours,
             "predicted_count": round(val, 1),
             "lower_bound": round(max(0, val - 1.96 * pred_std), 1),
             "upper_bound": round(max(0, val + 1.96 * pred_std), 1),

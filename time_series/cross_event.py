@@ -237,6 +237,14 @@ class CrossEventAnalyzer:
         if n < 20:
             return None
 
+        # 对齐两个序列
+        min_len = min(len(driver_series), len(target_series))
+        if min_len < 20:
+            return None
+        driver_series = driver_series[:min_len]
+        target_series = target_series[:min_len]
+        n = min_len
+
         # Step 1: 按分位数离散化为符号序列 (0, 1, 2)
         def _discretize(series: np.ndarray) -> np.ndarray:
             q33 = np.percentile(series, 33.33)
@@ -375,9 +383,13 @@ class CrossEventAnalyzer:
 
           F = ((RSS_r - RSS_u) / L) / (RSS_u / (n - 2L - 1))
         """
-        n = len(target_series)
-        if n < 2 * max_lag + 2:
+        # 对齐两个序列到相同长度（取较短的那个）
+        min_len = min(len(target_series), len(driver_series))
+        if min_len < 2 * max_lag + 2:
             return None  # 数据太少
+        target_series = target_series[:min_len]
+        driver_series = driver_series[:min_len]
+        n = min_len
 
         best_lag = 1
         best_pvalue = 1.0
@@ -459,11 +471,16 @@ class CrossEventAnalyzer:
 
     @staticmethod
     def _f_pvalue(f_stat: float, df1: int, df2: int) -> float:
-        """F 分布右尾 p 值（Beta 正则化不完全函数近似）"""
+        """F 分布右尾 p 值 — 优先使用 scipy，回退到解析近似"""
         if f_stat <= 0:
             return 1.0
+        try:
+            from scipy.stats import f as f_dist
+            return float(f_dist.sf(f_stat, df1, df2))
+        except ImportError:
+            pass
+        # 回退：正则化不完全 Beta 函数连分式展开
         from math import exp, lgamma, log
-
         x = df2 / (df2 + df1 * f_stat)
         a = df2 / 2.0
         b = df1 / 2.0
@@ -522,7 +539,8 @@ class CrossEventAnalyzer:
             front = (x ** a) * ((1.0 - x) ** b) / a / beta_ab
             return front * cont_frac(x, a, b)
 
-        return 1.0 - betai(x, a, b)
+        p = 1.0 - betai(x, a, b)
+        return max(0.0, min(1.0, p))  # 防御性钳位，防止数值溢出
 
     @staticmethod
     def _make_interpretation(

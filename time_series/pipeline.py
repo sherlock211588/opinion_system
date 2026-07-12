@@ -34,8 +34,13 @@ class Pipeline:
     之后每个方法都只返回报表 JSON。
     """
 
-    def __init__(self):
-        self.lifecycle = LifecycleDetector()
+    def __init__(self, data_interval_hours: int = 6):
+        """
+        data_interval_hours: 数据时间间隔（小时），传给 LifecycleDetector。
+                             1=每小时, 6=每6小时, 12=每半天, 24=每天
+        """
+        self.data_interval_hours = data_interval_hours
+        self.lifecycle = LifecycleDetector(data_interval_hours=data_interval_hours)
         self.propagation = PropagationTracer()
         self.cross_event = CrossEventAnalyzer()
 
@@ -83,74 +88,90 @@ class Pipeline:
             "event_id": event_data.get("event_id", ""),
             "event_title": event_data.get("event_title", ""),
             "category": event_data.get("category", ""),
+            "hot_score": event_data.get("hot_score"),
+            "news_count": event_data.get("news_count"),
+            "sentiment_distribution": event_data.get("sentiment_distribution", {}),
         }
 
         # ---- 模块1: 生命周期 ----
-        lifecycle_result = self.lifecycle.detect(event_data)
-        report["lifecycle"] = {
-            "current_stage": lifecycle_result["current_stage"],
-            "stage_probabilities": lifecycle_result["stage_probabilities"],
-            "trend_direction": lifecycle_result["trend_direction"],
-            "trend_slope": lifecycle_result["trend_slope"],
-            "current_heat_index": lifecycle_result["current_heat_index"],
-            "composite_index_breakdown": lifecycle_result["composite_index_breakdown"],
-            "peak_count": lifecycle_result["peak_count"],
-            "peak_time": lifecycle_result["peak_time"],
-            "total_duration_hours": lifecycle_result["total_duration_hours"],
-            # 预测
-            "forecast": lifecycle_result["predicted_next_24h"],
-            # 转折点
-            "turning_points": lifecycle_result["turning_points"],
-            # 高级功能
-            "resurgence": lifecycle_result["resurgence"],
-            "critical_early_warning": lifecycle_result["critical_early_warning"],
-            "diurnal_cycle": lifecycle_result["diurnal_cycle"],
-        }
+        try:
+            lifecycle_result = self.lifecycle.detect(event_data)
+            report["lifecycle"] = {
+                "current_stage": lifecycle_result["current_stage"],
+                "stage_probabilities": lifecycle_result["stage_probabilities"],
+                "trend_direction": lifecycle_result["trend_direction"],
+                "trend_slope": lifecycle_result["trend_slope"],
+                "current_heat_index": lifecycle_result["current_heat_index"],
+                "composite_index_breakdown": lifecycle_result["composite_index_breakdown"],
+                "peak_count": lifecycle_result["peak_count"],
+                "peak_time": lifecycle_result["peak_time"],
+                "total_duration_hours": lifecycle_result["total_duration_hours"],
+                "forecast": lifecycle_result["predicted_next_24h"],
+                "turning_points": lifecycle_result["turning_points"],
+                "resurgence": lifecycle_result["resurgence"],
+                "critical_early_warning": lifecycle_result["critical_early_warning"],
+                "diurnal_cycle": lifecycle_result["diurnal_cycle"],
+            }
+        except Exception as e:
+            report["lifecycle"] = {"error": str(e)}
 
         # ---- 模块2: 传播溯源 ----
         if include_propagation and propagation_nodes:
-            prop_result = self.propagation.analyze(propagation_nodes)
-            report["propagation"] = {
-                "source_nodes": prop_result["source_nodes"],
-                "key_nodes": prop_result["key_nodes"],
-                "propagation_depth": prop_result["propagation_depth"],
-                "total_reach": prop_result["total_reach"],
-                "counterfactual": prop_result["counterfactual_analysis"],
-                "graph": prop_result["graph_for_visualization"],
-                "timeline": prop_result["timeline"],
-                "data_quality": prop_result["data_quality"],
-            }
+            try:
+                prop_result = self.propagation.analyze(propagation_nodes)
+                report["propagation"] = {
+                    "source_nodes": prop_result["source_nodes"],
+                    "key_nodes": prop_result["key_nodes"],
+                    "propagation_depth": prop_result["propagation_depth"],
+                    "total_reach": prop_result["total_reach"],
+                    "counterfactual": prop_result["counterfactual_analysis"],
+                    "graph": prop_result["graph_for_visualization"],
+                    "timeline": prop_result["timeline"],
+                    "data_quality": prop_result["data_quality"],
+                }
+            except Exception as e:
+                report["propagation"] = {"error": str(e)}
         else:
             report["propagation"] = None
 
         # ---- 模块3: 虚假检测 ----
         if include_fake_check and articles:
             checked = []
+            errors = 0
             for art in articles:
-                text = art.get("cleaned_text", art.get("text", ""))
-                meta = {
-                    "source_verified": art.get("is_verified", False),
-                    "source_followers": art.get("follower_count", 0),
-                    "similar_report_count": art.get("forward_count", 0),
-                    "hours_since_event_start": art.get("hours_since_event", 24.0),
-                    "sentiment_intensity": art.get("sentiment_intensity", 0.5),
-                }
-                fc = self.fake_detector.evaluate(text, meta)
-                checked.append({
-                    "article_id": art.get("id", art.get("article_id", "")),
-                    "title": art.get("title", ""),
-                    "source": art.get("source", ""),
-                    "publish_time": str(art.get("publish_time", "")),
-                    "verdict": fc["verdict"],
-                    "confidence_score": fc["confidence_score"],
-                    "fake_probability": fc["fake_probability"],
-                    "risk_factors": fc["risk_factors"],
-                    "shap_explanation": fc.get("shap_explanation"),
-                    "information_sufficiency": fc["information_sufficiency"],
-                })
+                try:
+                    text = art.get("cleaned_text", art.get("text", ""))
+                    meta = {
+                        "source_verified": art.get("is_verified", False),
+                        "source_followers": art.get("follower_count", 0),
+                        "similar_report_count": art.get("forward_count", 0),
+                        "hours_since_event_start": art.get("hours_since_event", 24.0),
+                        "sentiment_intensity": art.get("sentiment_intensity", 0.5),
+                    }
+                    fc = self.fake_detector.evaluate(text, meta)
+                    checked.append({
+                        "article_id": art.get("id", art.get("article_id", "")),
+                        "title": art.get("title", ""),
+                        "source": art.get("source", ""),
+                        "publish_time": str(art.get("publish_time", "")),
+                        "verdict": fc["verdict"],
+                        "confidence_score": fc["confidence_score"],
+                        "fake_probability": fc["fake_probability"],
+                        "risk_factors": fc["risk_factors"],
+                        "shap_explanation": fc.get("shap_explanation"),
+                        "information_sufficiency": fc["information_sufficiency"],
+                    })
+                except Exception:
+                    errors += 1
+                    checked.append({
+                        "article_id": art.get("id", art.get("article_id", "")),
+                        "title": art.get("title", ""),
+                        "verdict": "error",
+                        "confidence_score": 0,
+                        "risk_factors": ["处理失败，跳过了该文章"],
+                    })
             report["articles"] = checked
 
-            # 汇总统计
             fake_count = sum(1 for a in checked if a["verdict"] == "疑似虚假")
             uncertain_count = sum(1 for a in checked if a["verdict"] == "待验证")
             real_count = sum(1 for a in checked if a["verdict"] == "可信")
@@ -159,6 +180,7 @@ class Pipeline:
                 "fake": fake_count,
                 "uncertain": uncertain_count,
                 "real": real_count,
+                "errors": errors,
                 "fake_ratio": round(fake_count / max(len(checked), 1), 3),
             }
         else:
@@ -181,20 +203,26 @@ class Pipeline:
         全局报表（所有事件 + 跨事件因果）
 
         参数：
-          all_events: {event_id: event_data} 字典
-          all_articles: {event_id: [articles]} 字典
-          all_propagation: {event_id: [propagation_nodes]} 字典
+          all_events:      {event_id: event_data} 字典
+          all_articles:    {event_id: [articles]} 字典（可选，传入则逐事件统计虚假占比）
+          all_propagation: {event_id: [propagation_nodes]} 字典（可选，传入则逐事件附传播概况）
 
         返回：
           {
-            "events":         [{event_id, lifecycle, stats}, ...],  // 事件摘要列表
-            "cross_event":    {pairs, te_pairs, causal_graph},      // 跨事件因果
-            "global_stats":   {total_events, alerts, ...},          // 全局统计
+            "events":         [{event_id, lifecycle, article_stats, propagation}, ...],
+            "cross_event":    {pairs, te_pairs, causal_graph},
+            "global_stats":   {total_events, alerts, global_article_stats, ...},
           }
         """
-        # 每个事件的摘要
+        if all_articles is None:
+            all_articles = {}
+        if all_propagation is None:
+            all_propagation = {}
+
         event_summaries = []
         alerts = {"red": 0, "orange": 0, "yellow": 0}
+        global_fake_total = 0
+        global_fake_fake = 0
 
         for eid, event_data in all_events.items():
             lifecycle = self.lifecycle.detect(event_data)
@@ -202,10 +230,11 @@ class Pipeline:
             if warning_level in alerts:
                 alerts[warning_level] += 1
 
-            event_summaries.append({
+            summary = {
                 "event_id": eid,
                 "event_title": event_data.get("event_title", ""),
                 "category": event_data.get("category", ""),
+                "sentiment_distribution": event_data.get("sentiment_distribution", {}),
                 "current_stage": lifecycle["current_stage"],
                 "current_heat_index": lifecycle["current_heat_index"],
                 "trend_direction": lifecycle["trend_direction"],
@@ -213,15 +242,56 @@ class Pipeline:
                 "is_resurgence": lifecycle["resurgence"]["is_resurgence"],
                 "total_hours": lifecycle["total_duration_hours"],
                 "peak_count": lifecycle["peak_count"],
-            })
+            }
+
+            # ---- 逐事件文章虚假统计 ----
+            articles = all_articles.get(eid)
+            if articles:
+                checked = self.article_check(articles)
+                fake_count = sum(1 for a in checked if a["verdict"] == "疑似虚假")
+                uncertain_count = sum(1 for a in checked if a["verdict"] == "待验证")
+                summary["article_stats"] = {
+                    "total": len(checked),
+                    "fake": fake_count,
+                    "uncertain": uncertain_count,
+                    "real": len(checked) - fake_count - uncertain_count,
+                    "fake_ratio": round(fake_count / max(len(checked), 1), 3),
+                }
+                global_fake_total += len(checked)
+                global_fake_fake += fake_count
+            else:
+                summary["article_stats"] = None
+
+            # ---- 逐事件传播概况 ----
+            prop_nodes = all_propagation.get(eid)
+            if prop_nodes:
+                try:
+                    prop_result = self.propagation.analyze(prop_nodes)
+                    summary["propagation"] = {
+                        "depth": prop_result["propagation_depth"],
+                        "key_node_count": len(prop_result["key_nodes"]),
+                        "source_count": len(prop_result["source_nodes"]),
+                        "total_reach": prop_result["total_reach"]["estimated_unique_reach"],
+                        "data_quality": prop_result["data_quality"],
+                    }
+                except Exception:
+                    summary["propagation"] = None
+            else:
+                summary["propagation"] = None
+
+            event_summaries.append(summary)
 
         # 按热度排序
         event_summaries.sort(key=lambda e: e["current_heat_index"], reverse=True)
 
-        # 跨事件因果
+        # 跨事件因果 — 给 timeseries 补 event_title 以避免输出里只显示 event_id
         events_timeseries = {}
         for eid, event_data in all_events.items():
-            events_timeseries[eid] = event_data.get("timeseries", [])
+            ts = event_data.get("timeseries", [])
+            title = event_data.get("event_title", eid)
+            for r in ts:
+                r["event_title"] = title
+            events_timeseries[eid] = ts
         cross_result = self.cross_event.analyze(events_timeseries)
 
         return {
@@ -236,6 +306,11 @@ class Pipeline:
                 "total_events": len(event_summaries),
                 "alerts": alerts,
                 "top_event": event_summaries[0] if event_summaries else None,
+                "global_article_stats": {
+                    "total": global_fake_total,
+                    "fake": global_fake_fake,
+                    "fake_ratio": round(global_fake_fake / max(global_fake_total, 1), 3),
+                } if global_fake_total > 0 else None,
                 "fake_detector_info": {
                     "data_source": self._train_report.get("data_source", self._train_report.get("source", "")),
                     "cv_accuracy": self._train_report.get("cv_mean_accuracy", 0),

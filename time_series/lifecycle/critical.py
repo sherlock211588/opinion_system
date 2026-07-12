@@ -5,19 +5,22 @@ from typing import Any
 import numpy as np
 
 
-def detect_critical_slowing_down(composite_index: list[int]) -> dict[str, Any]:
-    """复杂系统相变前兆检测：方差比 + AR(1)自相关 + 恢复速度"""
-    n = len(composite_index)
-    if n < 20:
-        return {"warning_level": "none", "reason": "数据不足20点"}
+def detect_critical_slowing_down(composite_index: list[int], data_interval_hours: int = 6) -> dict[str, Any]:
+    """复杂系统相变前兆检测：方差比 + AR(1)自相关 + 恢复速度
 
-    window = min(12, n // 3)
+    data_interval_hours: 窗口按间隔自动缩放（覆盖~12时间步的物理时长）。
+    """
+    n = len(composite_index)
+    window = max(4, 12 // data_interval_hours)  # 最少4个点，6h间隔下看最近24h
+    if n < window * 3:                          # 至少3个窗口才做对比
+        return {"warning_level": "none", "reason": f"数据不足{window * 3}个点"}
+
     recent = composite_index[-window:]
     recent_arr = np.array(recent, dtype=float)
 
     recent_var = float(np.var(recent_arr))
     if n >= 2 * window:
-        baseline_segment = composite_index[-(2 * window):-window]
+        baseline_segment = composite_index[-(3 * window):-window]
     else:
         baseline_segment = composite_index[: n - window]
     baseline_var = float(np.var(np.array(baseline_segment, dtype=float))) if baseline_segment else 1.0
@@ -35,19 +38,19 @@ def detect_critical_slowing_down(composite_index: list[int]) -> dict[str, Any]:
         ar1 = 0.0
 
     recovery_lag = 0
-    # 从倒数第2个元素向前扫描最近 window 个点，统计与当前值差异<30%的连续点数
     n_full = len(composite_index)
     for i in range(n_full - 2, max(0, n_full - window - 1), -1):
-        if abs(composite_index[-1] - composite_index[i]) < 0.3 * recent_arr[-1]:
+        if recent_arr[-1] > 0 and abs(composite_index[-1] - composite_index[i]) < 0.3 * recent_arr[-1]:
             recovery_lag += 1
         else:
             break
 
-    if variance_ratio > 3.0 and ar1 > 0.5:
+    # 阈值按6小时间隔校准：window=4，方差比2.0即显著波动
+    if variance_ratio > 4.0 and ar1 > 0.50:
         level, msg = "red", f"CRITICAL: 方差飙升{variance_ratio:.1f}x + 自相关增强{ar1:.2f}。系统高度不稳定。"
-    elif variance_ratio > 2.5 or (variance_ratio > 1.5 and ar1 > 0.4):
+    elif variance_ratio > 2.0 and ar1 > 0.35:
         level, msg = "orange", f"WARNING: 方差比{variance_ratio:.1f}x，自相关{ar1:.2f}。系统逼近临界点。"
-    elif variance_ratio > 1.5 or ar1 > 0.35:
+    elif variance_ratio > 1.5 or (variance_ratio > 1.2 and ar1 > 0.30):
         level, msg = "yellow", f"注意：方差比{variance_ratio:.1f}x，系统开始不稳定。"
     else:
         level, msg = "none", ""

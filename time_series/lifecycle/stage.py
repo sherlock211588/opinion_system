@@ -31,6 +31,7 @@ def classify_stage(
     trend_direction: str,
     current_level: float,
     detector: Any,  # LifecycleDetector instance
+    data_interval_hours: int = 6,
 ) -> tuple[str, dict[str, float]]:
     """三个统计信号 → raw score → EMA 平滑 → softmax → 四阶段概率
 
@@ -40,12 +41,18 @@ def classify_stage(
              → 阶段判定有"惯性"，不会因为一小时噪声横跳
 
     EMA 状态存储在 detector._ema_raw 中，按 event_id 分组避免不同事件互相污染。
+
+    data_interval_hours: 用于自动调整 time_ratio 的归一化基准。
+      1h → 72小时约等于一个完整生命周期
+      6h → 12个点约等于一个完整生命周期
     """
     peak_count = max(counts)
     level_ratio = current_level / peak_count if peak_count > 0 else 0.0
     trend_slope, _ = detector._calc_trend(counts)
     normalized_trend = math.tanh(trend_slope * 2)
-    time_ratio = min(1.0, len(counts) / max(72, len(counts)))
+    # 完整生命周期的数据点数 = 72小时 / 间隔
+    points_per_lifecycle = max(12, 72 // data_interval_hours)
+    time_ratio = min(1.0, len(counts) / max(points_per_lifecycle, len(counts)))
 
     raw_latent = (1 - level_ratio) * (1 - abs(normalized_trend)) * max(0, 1 - time_ratio)
     raw_growing = max(0, normalized_trend) * level_ratio * (1 - min(time_ratio, 0.5))

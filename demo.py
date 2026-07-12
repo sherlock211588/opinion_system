@@ -238,6 +238,123 @@ def demo_data_format():
 """)
 
 
+def demo_pipeline():
+    """演示5：统一报表接口 — 5号只需调这一个类"""
+    from time_series.pipeline import Pipeline
+    from time_series.utils.mock_data import generate_mock_events, generate_mock_propagation_data
+
+    print("=" * 70)
+    print("   [演示5] 统一报表接口 — 5号只需要 import Pipeline")
+    print("=" * 70)
+
+    pipe = Pipeline()
+
+    # ---- 准备数据 ----
+    events = generate_mock_events(num_events=3)
+    all_events = {e["event_id"]: e for e in events}
+    event_data = events[0]
+
+    propagation_nodes = generate_mock_propagation_data()
+
+    articles = [
+        {"id": "1", "title": "官方通报", "cleaned_text": "卫健委通报:今日新增3例,详情见 http://health.gov.cn",
+         "is_verified": True, "follower_count": 2000000, "forward_count": 25,
+         "hours_since_event": 8.0, "sentiment_intensity": 0.2,
+         "source": "央视新闻", "publish_time": "2026-07-06 10:00"},
+        {"id": "2", "title": "网友爆料", "cleaned_text": "听说隔壁小区被封了,等通知吧",
+         "is_verified": False, "follower_count": 500, "forward_count": 2,
+         "hours_since_event": 2.0, "sentiment_intensity": 0.5,
+         "source": "微博", "publish_time": "2026-07-06 14:00"},
+        {"id": "3", "title": "可疑消息", "cleaned_text": "震惊!!绝密内幕!!紧急扩散!!马上删!!",
+         "is_verified": False, "follower_count": 20, "forward_count": 0,
+         "hours_since_event": 0.5, "sentiment_intensity": 0.95,
+         "source": "未知", "publish_time": "2026-07-06 15:00"},
+    ]
+    all_articles = {event_data["event_id"]: articles}
+    all_propagation = {event_data["event_id"]: propagation_nodes}
+
+    # ================================================================
+    #  接口1: 单事件报表 → 对应前端「事件详情页」
+    # ================================================================
+    print("\n" + "─" * 50)
+    print("  接口1: pipe.event_report(event_data, articles, propagation_nodes)")
+    print("  用途: 前端「事件详情页」全部数据\n")
+    report = pipe.event_report(event_data, articles, propagation_nodes)
+
+    print(f"  事件: {report['event_title']}")
+    print(f"  情感: {report['sentiment_distribution']}")
+    print(f"  阶段: {report['lifecycle']['current_stage']}")
+    print(f"  热度: {report['lifecycle']['current_heat_index']}/100")
+    print(f"  趋势: {report['lifecycle']['trend_direction']}")
+    print(f"  预警: {report['lifecycle']['critical_early_warning']['warning_level']}")
+    print(f"  预测: {len(report['lifecycle']['forecast'])}小时 → 前端折线图")
+    print(f"  转折点: {len(report['lifecycle']['turning_points'])}个 → 前端标注节点")
+    print(f"  二次爆发: {report['lifecycle']['resurgence']['is_resurgence']}")
+    print(f"  传播: {report['propagation']['data_quality']}")
+    print(f"  传播图: {len(report['propagation']['graph']['nodes'])}节点, "
+          f"{len(report['propagation']['graph']['links'])}条边 → 前端力导向图")
+    print(f"  文章统计: {report['article_stats']}")
+
+    print("\n  文章逐条判假:")
+    for a in report["articles"]:
+        icon = {"可信": "[OK]", "待验证": "[?]", "疑似虚假": "[!!]"}
+        print(f"    {icon[a['verdict']]} {a['title']} | {a['verdict']} "
+              f"(可信度{a['confidence_score']}%)")
+        if a.get("shap_explanation"):
+            print(f"      SHAP: {a['shap_explanation']['summary']}")
+
+    # ================================================================
+    #  接口2: 全局报表 → 对应前端「热点看板首页」
+    # ================================================================
+    print("\n" + "─" * 50)
+    print("  接口2: pipe.global_report(all_events, all_articles, all_propagation)")
+    print("  用途: 前端「热点看板首页」全部数据\n")
+    global_r = pipe.global_report(all_events, all_articles, all_propagation)
+
+    print(f"  事件数: {global_r['global_stats']['total_events']}")
+    print(f"  预警分布: {global_r['global_stats']['alerts']}")
+    if global_r['global_stats'].get('global_article_stats'):
+        gas = global_r['global_stats']['global_article_stats']
+        print(f"  全局文章: {gas['total']}篇, 疑似虚假{gas['fake']}篇 ({gas['fake_ratio']:.1%})")
+    print(f"\n  ---- 热点榜单（按热度排序）----")
+    for i, evt in enumerate(global_r["events"]):
+        print(f"  {i+1}. [{evt['current_stage']}] {evt['event_title']}"
+              f"  热度:{evt['current_heat_index']:.0f}"
+              f"  趋势:{evt['trend_direction']}"
+              f"  预警:{evt['warning_level']}")
+        if evt.get("sentiment_distribution"):
+            sd = evt["sentiment_distribution"]
+            print(f"      正面{sd['positive']:.1%} 负面{sd['negative']:.1%} 中性{sd['neutral']:.1%}")
+        if evt.get("article_stats"):
+            print(f"      虚假文章: {evt['article_stats']['fake']}/{evt['article_stats']['total']}")
+        if evt.get("propagation"):
+            print(f"      传播: 深{evt['propagation']['depth']}层, "
+                  f"触达{evt['propagation']['total_reach']:,}人次")
+
+    print(f"\n  ---- 跨事件因果 ----")
+    print(f"  {global_r['cross_event']['summary']}")
+    for p in global_r["cross_event"]["granger_pairs"][:3]:
+        sig = " *** 显著 ***" if p["is_significant"] else ""
+        print(f"    {p['from_title']} → {p['to_title']}{sig}  "
+              f"滞后{p['best_lag_hours']}h p={p['p_value']:.4f}")
+
+    # ================================================================
+    #  接口3: 批量文章判假
+    # ================================================================
+    print("\n" + "─" * 50)
+    print("  接口3: pipe.article_check(articles)")
+    print("  用途: 前端「文章列表页」逐条判假\n")
+    results = pipe.article_check(articles)
+    for r in results:
+        print(f"  {r['title']} → {r['verdict']} ({r['confidence_score']}%)")
+
+    print("\n  [OK] 5号只需记住三行代码:")
+    print("    pipe = Pipeline()")
+    print("    pipe.event_report(event_data, articles, propagation_nodes)")
+    print("    pipe.global_report(all_events, all_articles, all_propagation)")
+    print()
+
+
 if __name__ == "__main__":
     print()
     print("+" + "=" * 62 + "+")
@@ -248,10 +365,11 @@ if __name__ == "__main__":
     demo_lifecycle()
     demo_propagation()
     demo_fake_detection()
+    demo_pipeline()
     demo_data_format()
 
     print("=" * 70)
     print("  [OK] 全部演示完成！")
-    print("  [>>] 下一步：和 1、2、3 号队友对齐上面的数据接口格式")
+    print("  [>>] 5号只需 import Pipeline，调 event_report / global_report")
     print("=" * 70)
     print()
