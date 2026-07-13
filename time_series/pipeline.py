@@ -159,7 +159,9 @@ class Pipeline:
                     fc = self.fake_detector.evaluate(text, meta)
                     checked.append({
                         "article_id": art.get("id", art.get("article_id", "")),
+                        "event_id": event_data.get("event_id", ""),
                         "title": art.get("title", ""),
+                        "cleaned_text": art.get("cleaned_text", art.get("text", "")),
                         "source": art.get("source", ""),
                         "url": art.get("url", ""),
                         "publish_time": str(art.get("publish_time", "")),
@@ -175,7 +177,9 @@ class Pipeline:
                     errors += 1
                     checked.append({
                         "article_id": art.get("id", art.get("article_id", "")),
+                        "event_id": event_data.get("event_id", ""),
                         "title": art.get("title", ""),
+                        "cleaned_text": art.get("cleaned_text", art.get("text", "")),
                         "verdict": "error",
                         "confidence_score": 0,
                         "risk_factors": ["处理失败，跳过了该文章"],
