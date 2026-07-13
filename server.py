@@ -22,6 +22,13 @@ sys.path.insert(0, str(PROJECT))
 from time_series.pipeline import Pipeline
 from time_series.cross_event import CrossEventAnalyzer
 
+# --- 用户认证模块 ---
+from app.database import engine, Base
+import app.models  # noqa: F401  确保 User 表被 SQLAlchemy 发现
+from app.routers.auth import router as auth_router
+
+Base.metadata.create_all(bind=engine)  # 首次启动自动建表（已有则跳过）
+
 # ============================================================
 # 启动：加载所有数据
 # ============================================================
@@ -37,6 +44,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# 注册用户认证路由
+app.include_router(auth_router, prefix="/api/auth", tags=["用户认证"])
 
 ROOT = PROJECT  # 数据在 4_time/ 内部
 
