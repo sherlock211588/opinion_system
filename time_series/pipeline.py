@@ -169,6 +169,7 @@ class Pipeline:
                         "risk_factors": fc["risk_factors"],
                         "shap_explanation": fc.get("shap_explanation"),
                         "information_sufficiency": fc["information_sufficiency"],
+                        "score_breakdown": fc.get("score_breakdown", {}),
                     })
                 except Exception:
                     errors += 1
@@ -178,6 +179,7 @@ class Pipeline:
                         "verdict": "error",
                         "confidence_score": 0,
                         "risk_factors": ["处理失败，跳过了该文章"],
+                        "score_breakdown": {},
                     })
             report["articles"] = checked
 
@@ -363,6 +365,7 @@ class Pipeline:
                 "fake_probability": fc["fake_probability"],
                 "risk_factors": fc["risk_factors"],
                 "shap_explanation": fc.get("shap_explanation"),
+                "score_breakdown": fc.get("score_breakdown", {}),
             })
         return results
 
