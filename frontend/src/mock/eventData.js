@@ -1,0 +1,31 @@
+export const eventDetailMock = {
+  id: 'ev-2026-0711',
+  event: { title: '某品牌产品质量争议引发全网持续关注', source: '全网舆情监测', time: '2026-07-11 10:30', category: '消费维权', heat: 92.6, riskLevel: '高风险', credibility: 86 },
+  overview: {
+    time: '2026-07-09 08:20',
+    location: '广东省深圳市 / 全网',
+    cause: '消费者发布产品体验视频，质疑产品质量及售后处理流程',
+    people: ['投诉消费者', '品牌负责人', '行业测评博主'],
+    summary: '事件由消费者发布的产品体验视频引发，随后多家媒体跟进报道，品牌方发布情况说明。讨论焦点已由单一产品问题扩展至质量管理、售后响应和行业标准，当前仍处于高热传播阶段。',
+  },
+  lifecycle: {
+    stage: '高潮期',
+    heat: 92.6,
+    trend: '高位波动',
+    trendDirection: 'up',
+    forecast: '预计未来 12–24 小时仍将维持高热，品牌后续回应可能形成次生传播峰值。',
+    points: [18, 28, 24, 45, 66, 92, 78, 71, 63],
+    labels: ['7/09 08:00', '7/09 20:00', '7/10 08:00', '7/10 20:00', '7/11 08:00'],
+  },
+  propagation: {
+    nodes: [{ id: 'n1', name: '消费者首发', type: 'origin', x: 12, y: 50 }, { id: 'n2', name: '消费观察', type: 'media', x: 38, y: 25 }, { id: 'n3', name: '测评博主A', type: 'creator', x: 38, y: 75 }, { id: 'n4', name: '都市新闻', type: 'media', x: 66, y: 28 }, { id: 'n5', name: '公众讨论', type: 'public', x: 86, y: 58 }],
+    links: [{ source: 'n1', target: 'n2' }, { source: 'n1', target: 'n3' }, { source: 'n2', target: 'n4' }, { source: 'n3', target: 'n4' }, { source: 'n4', target: 'n5' }],
+    rank: [{ name: '消费观察', influence: 92, reach: '1,280万' }, { name: '测评博主A', influence: 85, reach: '860万' }, { name: '都市新闻', influence: 78, reach: '620万' }, { name: '行业聚焦', influence: 66, reach: '410万' }, { name: '品牌官方', influence: 59, reach: '280万' }],
+  },
+  emotion: { total: 82645, items: [{ label: '正面', value: 72.6, color: '#34D399' }, { label: '中性', value: 19.3, color: '#818CF8' }, { label: '负面', value: 8.1, color: '#FB7185' }] },
+  platforms: [{ name: '微博', value: 46 }, { name: '新闻', value: 28 }, { name: '论坛', value: 16 }, { name: '其他', value: 10 }],
+  causalGraph: { nodes: [{ id: 'event-a', label: '事件 A', title: '同类产品投诉持续积累', time: '2026-06-18' }, { id: 'current', label: '当前事件', title: '产品质量争议全网发酵', time: '2026-07-09', current: true }, { id: 'event-b', label: '事件 B', title: '监管部门启动专项核查', time: '预测事件' }], links: [{ source: 'event-a', target: 'current', relation: '舆情积累' }, { source: 'current', target: 'event-b', relation: '推动监管介入' }] },
+  keywords: [{ name: '新能源汽车', count: 982, size: 32, x: 35, y: 38, color: '#8b5cf6', rotate: -6 }, { name: '智能驾驶', count: 865, size: 28, x: 67, y: 58, color: '#3b82f6', rotate: 5 }, { name: '用户反馈', count: 723, size: 23, x: 64, y: 25, color: '#22d3ee', rotate: -3 }, { name: '安全问题', count: 652, size: 22, x: 30, y: 68, color: '#ec4899', rotate: 7 }, { name: '官方回应', count: 520, size: 19, x: 47, y: 83, color: '#f472b6', rotate: -4 }, { name: '产品测试', count: 468, size: 18, x: 82, y: 78, color: '#a78bfa', rotate: 8 }, { name: '使用体验', count: 396, size: 17, x: 17, y: 20, color: '#38bdf8', rotate: -8 }, { name: '行业政策', count: 318, size: 15, x: 83, y: 40, color: '#f472b6', rotate: 3 }, { name: '市场表现', count: 276, size: 14, x: 17, y: 86, color: '#60a5fa', rotate: 6 }, { name: '售后服务', count: 241, size: 13, x: 48, y: 14, color: '#2dd4bf', rotate: -5 }],
+  relatedNews: [{ id: 'news-01', title: '品牌发布情况说明：已成立专项调查组', source: '品牌官方账号', time: '2026-07-11 09:26', status: '可信', url: '/news/news-01' }, { id: 'news-02', title: '多位消费者反映相似产品使用问题', source: '都市观察', time: '2026-07-11 07:40', status: '待验证', url: '/news/news-02' }, { id: 'news-03', title: '网传品牌将全面停止相关产品销售', source: '网络自媒体', time: '2026-07-11 06:18', status: '疑似虚假', url: '/news/news-03' }, { id: 'news-04', title: '当地市场监管部门回应：已关注相关情况', source: '权威发布', time: '2026-07-11 05:32', status: '可信', url: '/news/news-04' }],
+  assistant: { prompts: ['这个事件的主要影响是什么？', '当前是否存在虚假信息？', '未来 24 小时趋势如何？', '给出舆情应对建议'], welcome: '你好，我已读取当前事件的传播、情感与平台数据。你可以继续询问风险成因、发展趋势或应对建议。', mockReply: '当前为 Mock 分析回复。正式接口接入后，将基于事件 ID 与实时舆情数据生成针对性回答。' },
+}
