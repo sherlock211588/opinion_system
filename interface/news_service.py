@@ -90,6 +90,7 @@ class NewsService:
                 "sentiment": standard_sentiment,
                 "source": self._safe_value(row.get("source")),
                 "publish_time": self._format_time(row.get("publish_time"))
+                "article_url": self._safe_str(row.get("url", ""))
             }
             result.append(news_item)
 
