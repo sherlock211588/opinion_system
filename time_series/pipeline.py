@@ -260,23 +260,16 @@ class Pipeline:
                 "peak_count": lifecycle["peak_count"],
             }
 
-            # ---- 逐事件文章虚假统计 ----
+            # ---- 逐事件文章数量统计（首页不做判假，判假设由 /api/event/{id} 单独处理） ----
             articles = all_articles.get(eid)
-            if articles:
-                checked = self.article_check(articles)
-                fake_count = sum(1 for a in checked if a["verdict"] == "疑似虚假")
-                uncertain_count = sum(1 for a in checked if a["verdict"] == "待验证")
-                summary["article_stats"] = {
-                    "total": len(checked),
-                    "fake": fake_count,
-                    "uncertain": uncertain_count,
-                    "real": len(checked) - fake_count - uncertain_count,
-                    "fake_ratio": round(fake_count / max(len(checked), 1), 3),
-                }
-                global_fake_total += len(checked)
-                global_fake_fake += fake_count
-            else:
-                summary["article_stats"] = None
+            article_count = len(articles) if articles else 0
+            summary["article_stats"] = {
+                "total": article_count,
+                "fake": 0,
+                "uncertain": 0,
+                "real": article_count,
+                "fake_ratio": 0.0,
+            }
 
             # ---- 逐事件传播概况 ----
             prop_nodes = all_propagation.get(eid)
@@ -295,20 +288,25 @@ class Pipeline:
             else:
                 summary["propagation"] = None
 
+            # ===== 前端兼容别名（不改原有字段，只追加前端取值链能命中名字） =====
+            summary["hot_score"] = summary["current_heat_index"]
+            summary["heat"] = summary["current_heat_index"]
+            summary["heat_index"] = summary["current_heat_index"]
+            summary["news_count"] = article_count
+            summary["news"] = article_count
+            summary["timeseries"] = event_data.get("timeseries", [])
+            summary["summary"] = summary["event_title"]
+            summary["source"] = ""
+            summary["time"] = summary["event_time"]
+
             event_summaries.append(summary)
 
         # 按热度排序
         event_summaries.sort(key=lambda e: e["current_heat_index"], reverse=True)
 
-        # 跨事件因果 — 给 timeseries 补 event_title 以避免输出里只显示 event_id
-        events_timeseries = {}
-        for eid, event_data in all_events.items():
-            ts = event_data.get("timeseries", [])
-            title = event_data.get("event_title", eid)
-            for r in ts:
-                r["event_title"] = title
-            events_timeseries[eid] = ts
-        cross_result = self.cross_event.analyze(events_timeseries)
+        # 跨事件因果由独立接口 /api/cross-event 提供，global_report 不做 O(n²) 因果计算
+        cross_result = {"pairs": [], "transfer_entropy_pairs": [], "causal_graph": {},
+                        "significant_pairs": 0, "significant_te_pairs": 0, "summary": "跨事件因果请调用 /api/cross-event"}
 
         return {
             "events": event_summaries,

@@ -67,10 +67,6 @@ def get_current_user(
 
 @router.post("/register", response_model=UserResponse, summary="用户注册")
 def register(data: UserRegister, db: Session = Depends(get_db)):
-    # 校验：手机号和邮箱至少一个不为空
-    if not data.phone and not data.email:
-        raise HTTPException(status_code=422, detail="手机号和邮箱至少填写一个")
-
     # 唯一性检查（手动查，比捕获 IntegrityError 更友好）
     if db.query(User).filter(User.username == data.username).first():
         raise HTTPException(status_code=400, detail="用户名已被注册")

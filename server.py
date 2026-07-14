@@ -6,14 +6,19 @@
 """
 
 import json
+import os
 import sys
 import csv as _csv
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
 
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
+# 加载 .env（必须在其他模块之前，确保环境变量已就绪）
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 # 确保导入路径
 PROJECT = Path(__file__).resolve().parent
@@ -47,6 +52,9 @@ app.add_middleware(
 
 # 注册用户认证路由
 app.include_router(auth_router, prefix="/api/auth", tags=["用户认证"])
+
+# AI 问答路由（延迟创建，等 pipe 初始化后再追加）
+_ai_router_created = False
 
 ROOT = PROJECT  # 数据在 4_time/ 内部
 
@@ -130,26 +138,36 @@ pipe = Pipeline(data_interval_hours=6)
 print(f"[server] Fake detector model: CV={pipe._train_report.get('cv_mean_accuracy', 0):.1%}")
 print(f"[server] Loaded {len(ALL_EVENTS)} events, {len(articles_valid)} articles")
 print(f"[server] Propagation data: {len(PROP_NODES_BY_EVENT)} events with B站 data")
+
+# --- 同步预热首页缓存（约 4 分钟，启动后 /api/events 秒回） ---
+print("[server] Warming up /api/events cache (114 events, ~4 min)...")
+_EVENTS_CACHE = pipe.global_report(
+    {k: ALL_EVENTS[k] for k in ALL_EVENTS},
+    {k: ARTICLES_BY_EVENT.get(k, []) for k in ALL_EVENTS},
+    {k: PROP_NODES_BY_EVENT.get(k, []) for k in ALL_EVENTS if k in PROP_NODES_BY_EVENT},
+)
+print(f"[server] /api/events cache ready ({len(_EVENTS_CACHE.get('events', []))} events)")
+
+# --- 注册 AI 问答路由（管道和数据都就绪后才能创建） ---
+from app.routers.ai import create_ai_router
+ai_router = create_ai_router(
+    all_events=ALL_EVENTS,
+    articles_by_event=ARTICLES_BY_EVENT,
+    prop_nodes_by_event=PROP_NODES_BY_EVENT,
+    prop_event_keywords=PROP_EVENT_KEYWORDS,
+    pipe=pipe,
+)
+app.include_router(ai_router, prefix="/api/ai", tags=["AI 问答"])
+
 print("[server] Ready.")
 
 
 # ============================================================
-# API 1: 事件摘要列表（首页看板）
+# API 1: 事件摘要列表（首页看板）—— 直接返回预热缓存
 # ============================================================
 @app.get("/api/events")
 def get_events() -> dict[str, Any]:
-    all_event_data: dict[str, dict] = {}
-    for eid, edata in ALL_EVENTS.items():
-        articles = ARTICLES_BY_EVENT.get(eid)
-        prop = PROP_NODES_BY_EVENT.get(eid)
-        all_event_data[eid] = edata
-        # 不在这里跑全量 Pipeline 避免超时，只跑生命周期
-    global_r = pipe.global_report(
-        all_event_data,
-        {k: ARTICLES_BY_EVENT.get(k, []) for k in ALL_EVENTS},
-        {k: PROP_NODES_BY_EVENT.get(k, []) for k in ALL_EVENTS if k in PROP_NODES_BY_EVENT},
-    )
-    return global_r
+    return _EVENTS_CACHE
 
 
 # ================================================================
