@@ -1,4 +1,4 @@
-import request from './request'
+import { request4 as request } from './request'
 
 export function loginUser(data) {
   return request.post('/auth/login', data)

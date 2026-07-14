@@ -1,6 +1,6 @@
 <script setup>
-import { onMounted, ref } from 'vue'
-import { fetchEventsWithFallback, normalizeEventItem } from '@/api/events'
+import { computed, onMounted, ref, watch } from 'vue'
+import { fetchEventsWithFallback, getEvents, normalizeEventItem } from '@/api/events'
 
 const activeSort = ref('按热度排序')
 const activeTime = ref('今天')
@@ -38,6 +38,81 @@ const fallbackEvents = [
 }))
 
 const events = ref(fallbackEvents.map(normalizeEventItem))
+const loading = ref(false)
+
+// 时间筛选 → start_time / end_time
+const timeRange = computed(() => {
+  const now = new Date()
+  const pad = (n) => String(n).padStart(2, '0')
+  const fmt = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`
+
+  switch (activeTime.value) {
+    case '今天': {
+      const today = fmt(now)
+      return { start_time: today, end_time: '' }
+    }
+    case '昨天': {
+      const yesterday = new Date(now)
+      yesterday.setDate(yesterday.getDate() - 1)
+      const d = fmt(yesterday)
+      return { start_time: d, end_time: d }
+    }
+    case '近7天': {
+      const weekAgo = new Date(now)
+      weekAgo.setDate(weekAgo.getDate() - 7)
+      return { start_time: fmt(weekAgo), end_time: '' }
+    }
+    case '近30天': {
+      const monthAgo = new Date(now)
+      monthAgo.setDate(monthAgo.getDate() - 30)
+      return { start_time: fmt(monthAgo), end_time: '' }
+    }
+    default:
+      return { start_time: '', end_time: '' }
+  }
+})
+
+async function loadEvents() {
+  loading.value = true
+  try {
+    const params = {}
+    if (activeField.value !== '全部领域') {
+      params.category = activeField.value
+    }
+    const { start_time, end_time } = timeRange.value
+    if (start_time) params.start_time = start_time
+    if (end_time) params.end_time = end_time
+
+    if (Object.keys(params).length > 0) {
+      // 有筛选条件 → 调 4号 /api/events?...
+      const payload = await getEvents(params)
+      const list = payload?.events ?? payload?.data?.events ?? payload?.items ?? []
+      events.value = (Array.isArray(list) ? list : []).map(normalizeEventItem)
+    } else {
+      // 无筛选 → 全量
+      events.value = await fetchEventsWithFallback()
+    }
+  } catch {
+    events.value = await fetchEventsWithFallback()
+  } finally {
+    loading.value = false
+  }
+}
+
+// 筛选条件变化时重新加载
+watch([activeTime, activeField], () => {
+  loadEvents()
+})
+
+// 排序：纯前端，不重新请求
+const sortedEvents = computed(() => {
+  const list = [...events.value]
+  if (activeSort.value === '按时间排序') {
+    return list.sort((a, b) => String(b.time || '').localeCompare(String(a.time || '')))
+  }
+  // 按热度排序（默认）
+  return list.sort((a, b) => (Number(b.heat) || 0) - (Number(a.heat) || 0))
+})
 
 onMounted(async () => {
   events.value = await fetchEventsWithFallback()
@@ -110,7 +185,7 @@ onMounted(async () => {
 
       <main class="event-section">
         <div class="list-toolbar">
-          <div><strong>实时热点 TOP10</strong><span>共找到 128 个热点事件</span></div>
+          <div><strong>实时热点 TOP10</strong><span>共找到 {{ events.length }} 个热点事件</span><span v-if="loading" class="loading-hint">加载中...</span></div>
           <div class="view-switch" aria-label="视图切换">
             <button class="active" type="button"><span aria-hidden="true">☷</span> 列表视图</button>
             <button type="button"><span aria-hidden="true">▦</span> 卡片视图</button>
@@ -118,7 +193,7 @@ onMounted(async () => {
         </div>
 
         <div class="event-list">
-          <article v-for="event in events" :key="event.id" class="event-card event-row">
+          <article v-for="event in sortedEvents" :key="event.id" class="event-card event-row">
             <div class="rank" :class="{ top: Number(event.rank) < 4 }">{{ event.rank }}</div>
             <div class="event-copy">
               <h2>{{ event.title }}</h2>

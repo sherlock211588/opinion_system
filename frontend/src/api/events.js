@@ -1,4 +1,4 @@
-import request from './request'
+import { request4 as request } from './request'
 import { eventDetailMock } from '@/mock/eventData'
 import { hotEvents as mockHotEvents } from '@/data/mockOpinion'
 import { newsDetailPreviewArticles } from '@/mock/newsDetailMock'

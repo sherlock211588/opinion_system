@@ -3,51 +3,110 @@
     <aside class="prompt-panel">
       <span>AI Assistant</span>
       <h1>AI 智能问答</h1>
-      <p>输入你想了解的舆情事件，AI 将基于 mock 舆情数据给出摘要、情绪判断和后续建议。</p>
+      <p>输入你想了解的舆情事件，AI 将基于真实舆情数据给出摘要、情绪判断和后续建议。</p>
 
       <div class="suggestions">
-        <button v-for="item in suggestions" :key="item" @click="message = item">
+        <button v-for="item in suggestions" :key="item" @click="ask(item)">
           {{ item }}
         </button>
       </div>
     </aside>
 
     <section class="chat-panel">
-      <div class="messages">
-        <article class="message ai">
-          <strong>舆见 AI</strong>
-          <p>你好，我可以帮你总结事件原因、公众态度、传播路径和未来趋势。</p>
+      <div class="messages" ref="msgBox">
+        <article v-for="(msg, i) in messages" :key="i" class="message" :class="msg.role">
+          <strong>{{ msg.role === 'assistant' ? '舆见 AI' : '你' }}</strong>
+          <p>{{ msg.text }}</p>
         </article>
-        <article class="message user">
-          <strong>你</strong>
-          <p>分析一下某新能源汽车事件的情绪风险。</p>
-        </article>
-        <article class="message ai">
+        <article v-if="loading" class="message ai">
           <strong>舆见 AI</strong>
-          <p>
-            当前风险主要来自售后回应不充分与智能驾驶边界争议。建议优先关注官方回应质量、媒体二次传播和负面关键词是否继续上升。
-          </p>
+          <p class="typing">正在分析...</p>
         </article>
       </div>
 
       <div class="composer">
-        <input v-model="message" placeholder="请输入你想了解的舆情事件" @keyup.enter="sendMock" />
-        <button @click="sendMock">发送</button>
+        <input v-model="message" placeholder="请输入你想了解的舆情事件" @keyup.enter="send" :disabled="loading" />
+        <button @click="send" :disabled="loading">{{ loading ? '...' : '发送' }}</button>
       </div>
     </section>
   </section>
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { nextTick, ref } from 'vue'
+import { searchSimilarEvents } from '@/api/analysis'
+import { request4 } from '@/api/request'
 
 const message = ref('')
+const loading = ref(false)
+const msgBox = ref(null)
 const suggestions = ['总结某新能源汽车事件', '分析今天的正向热点', '找出负面情绪最高的话题']
 
-function sendMock() {
-  if (!message.value.trim()) return
-  window.alert(`已收到问题：${message.value}。后续可在这里接入大模型接口。`)
+const messages = ref([
+  { role: 'assistant', text: '你好，我可以帮你总结事件原因、公众态度、传播路径和未来趋势。' },
+])
+
+async function scrollToBottom() {
+  await nextTick()
+  if (msgBox.value) msgBox.value.scrollTop = msgBox.value.scrollHeight
+}
+
+async function callAiChat(eventId, question) {
+  const payload = await request4.post('/ai/chat', {
+    page_type: 'event_detail',
+    event_id: eventId || '',
+    question,
+  })
+  if (payload?.code === 200 && payload?.data?.answer) {
+    return payload.data.answer
+  }
+  if (payload?.message) {
+    return `AI 服务返回：${payload.message}`
+  }
+  if (payload?.data?.answer) {
+    return payload.data.answer
+  }
+  return 'AI 暂未返回有效回答，请稍后重试。'
+}
+
+async function send() {
+  const text = message.value.trim()
+  if (!text || loading.value) return
+
+  messages.value.push({ role: 'user', text })
   message.value = ''
+  loading.value = true
+  await scrollToBottom()
+
+  try {
+    // Step 1: 语义搜索找到最相关的事件
+    const searchResults = await searchSimilarEvents(text, 3)
+    let answer = ''
+
+    if (searchResults && searchResults.length > 0) {
+      const topEvent = searchResults[0]
+      // Step 2: 基于匹配事件调用 AI 对话
+      answer = await callAiChat(topEvent.event_id, text)
+      if (searchResults.length > 1) {
+        answer += `\n\n相关事件：「${searchResults.slice(0, 3).map(e => e.event_title).join('」「')}」`
+      }
+    } else {
+      // 无匹配事件，直接问 AI（不带事件上下文）
+      answer = await callAiChat('', text)
+    }
+
+    messages.value.push({ role: 'assistant', text: answer || '未获取到分析结果，请稍后重试。' })
+  } catch {
+    messages.value.push({ role: 'assistant', text: 'AI 服务暂不可用，请稍后重试。' })
+  } finally {
+    loading.value = false
+    await scrollToBottom()
+  }
+}
+
+function ask(preset) {
+  message.value = preset
+  send()
 }
 </script>
 
@@ -106,6 +165,8 @@ h1 {
   cursor: pointer;
   text-align: left;
   font-weight: 850;
+  border: 0;
+  font: inherit;
 }
 
 .chat-panel {
@@ -119,6 +180,8 @@ h1 {
   display: grid;
   align-content: start;
   gap: 16px;
+  overflow-y: auto;
+  max-height: 520px;
 }
 
 .message {
@@ -135,6 +198,7 @@ h1 {
 .message p {
   color: #5f697a;
   line-height: 1.75;
+  white-space: pre-wrap;
 }
 
 .message.ai {
@@ -149,6 +213,10 @@ h1 {
 
 .message.user p {
   color: rgba(255, 255, 255, 0.88);
+}
+
+.typing {
+  opacity: 0.6;
 }
 
 .composer {
@@ -176,6 +244,13 @@ h1 {
   color: #fff;
   cursor: pointer;
   font-weight: 900;
+  border: 0;
+  font: inherit;
+}
+
+.composer button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 @media (max-width: 860px) {
