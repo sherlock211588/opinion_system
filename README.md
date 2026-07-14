@@ -60,8 +60,52 @@
 | 1.40 | 辅助配置/参数文件 |
 
 ---
+### 4. /interface FastAPI接口服务目录（新增模块）
+提供前后端交互RESTful接口，内置Swagger在线文档，三层分层设计：路由层(main.py)、业务服务层、全局配置
+| 文件 | 用途说明 |
+|---|---|
+| main.py | FastAPI服务入口，定义全部API路由、请求参数模型、跨域配置 |
+| config.py | 全局路径配置，统一管理数据、模型、时序文件路径 |
+| event_service.py | 事件核心业务服务：事件列表、单事件详情、多条件筛选、情感/平台分布计算、时序聚合 |
+| history_service.py | 历史事件检索中间层，转发筛选参数至EventService |
+| news_service.py | 新闻数据服务：根据事件ID批量查询关联新闻 |
+| similar_service.py | 相似事件检索服务，加载FAISS向量索引做语义匹配 |
 
-### 4. 日志 & 其他文件
+### 已开放核心API接口
+1. 事件基础列表
+`GET /api/analysis/events`
+- 无请求体，返回精简事件列表（不含情感、平台、时序详情）
+
+2. 单事件完整详情
+`GET /api/analysis/event/{eid}`
+- 路径参数eid：事件唯一ID；返回完整数据：情感分布、平台来源分布、时序曲线、关联新闻
+
+3. 事件关联新闻列表
+`GET /api/analysis/event/{eid}/articles`
+- 根据事件ID查询全部绑定新闻
+
+4. 历史事件多条件筛选（关键词+分类+起止时间）
+`POST /api/history/filter`
+- 请求体支持keyword/category/start_time/end_time，任意字段组合筛选
+- 示例请求体
+```json
+{
+  "keyword": "山洪",
+  "start_time": "2026-07-01",
+  "end_time": "2026-07-14"
+}
+
+5.相似事件语义检索
+`POST /api//similar/search`
+- 请求参数：query 检索文本、top_k 返回条数
+- 示例请求体
+```json
+{
+  "query": "暴雨山洪灾害",
+  "top_k": 5
+}
+
+### 5. 日志 & 其他文件
 | 文件名 | 用途说明 |
 |---|---|
 | event_llm_run.log | LLM抽取任务运行日志，用于调试和追溯执行过程 |

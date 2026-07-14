@@ -2,6 +2,7 @@ import os
 import faiss
 import numpy as np
 import pandas as pd
+import torch  # 新增：用于GPU推理优化
 from sentence_transformers import SentenceTransformer
 
 # 路径配置
@@ -14,9 +15,6 @@ EVENT_TABLE_PATH = r"C:\Users\Yolo\Downloads\opinion_system_C\data\event_table_l
 TOP_K = 5
 CLASSIFY_DIST_THRESHOLD = 0.6   # 归类标准（L2）
 SHOW_DIST_THRESHOLD = 0.7     # 前端页面过滤标准
-
-#删掉BGE检索Prompt！不再拼接前缀
-# BGE_QUERY_PROMPT = "为这个句子生成表示以用于检索："
 
 # 前置文件存在校验
 if not os.path.exists(MODEL_LOCAL_PATH):
@@ -38,13 +36,16 @@ event_table = pd.read_csv(
     encoding="utf-8-sig"
 )
 
-# 全局加载模型与索引
-model = SentenceTransformer(MODEL_LOCAL_PATH)
+# 全局加载模型与索引【关键：显式指定GPU设备】
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+print(f"[相似检索模块] 模型运行设备：{DEVICE}")
+model = SentenceTransformer(MODEL_LOCAL_PATH, device=DEVICE)
 faiss_index = faiss.read_index(FAISS_INDEX_PATH)
 
 def get_text_embedding(text: str) -> np.ndarray:
-    """纯原文编码 + L2归一化 + 除零保护，和聚类/索引向量保持一致"""
-    emb = model.encode(text)  # 直接编码原文，不加prompt
+    """纯原文编码 + L2归一化 + 除零保护 + GPU无梯度推理"""
+    with torch.no_grad():  # 核心优化：关闭梯度计算，大幅提速、降低显存占用
+        emb = model.encode(text)
     norm = np.linalg.norm(emb)
     if norm > 1e-8:
         emb = emb / norm
@@ -61,14 +62,12 @@ def search_faiss(query_text: str, top_k: int = TOP_K):
         distances[0],
         faiss_ids[0]
     ):
-        # faiss_id查询event_id
         event_row = event_mapping[
             event_mapping["faiss_id"] == fid
         ]
         if len(event_row) == 0:
             continue
         event_id = event_row.iloc[0]["event_id"]
-        # 查询事件详情
         info = event_table[
             event_table["event_id"] == event_id
         ]
@@ -89,7 +88,7 @@ def search_faiss(query_text: str, top_k: int = TOP_K):
     return results
 
 def judge_new_event(search_result):
-    """按L2=0.3阈值判断是否新建事件"""
+    """按L2阈值判断是否新建事件"""
     if not search_result:
         return True
     top1_l2_dist = search_result[0]["distance"]
@@ -97,10 +96,7 @@ def judge_new_event(search_result):
 
 if __name__ == "__main__":
     test_input = "广西近日强降雨导致洪水，多地群众受灾"
-    results = search_faiss(
-        test_input,
-        TOP_K
-    )
+    results = search_faiss(test_input, TOP_K)
     is_new = judge_new_event(results)
     print("检索结果：")
     for r in results:
