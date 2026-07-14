@@ -45,17 +45,77 @@ const hasValue = (value) => value !== undefined && value !== null && value !== '
 const valueOrEmpty = (value) => (hasValue(value) ? value : emptyValue)
 const normalizeStageKey = (stage) => stageAlias[String(stage ?? '').trim().toLowerCase()] || null
 const toNumber = (value) => {
+  if (value === undefined || value === null || value === '') return null
   const number = Number(value)
   return Number.isFinite(number) ? number : null
 }
+
+const parseTimestamp = (value) => {
+  if (value === undefined || value === null) return null
+  const text = String(value).trim()
+  if (!text) return null
+
+  const normalizedText = /^\d{4}-\d{1,2}-\d{1,2}\s+\d{1,2}:\d{2}/.test(text)
+    ? text.replace(/\s+/, 'T')
+    : text
+  const timestamp = new Date(normalizedText).getTime()
+  return Number.isFinite(timestamp) ? timestamp : null
+}
+
+const formatFullTime = (value) => {
+  const timestamp = parseTimestamp(value)
+  if (timestamp === null) return valueOrEmpty(value)
+
+  const date = new Date(timestamp)
+  const pad = (number) => String(number).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())} ${pad(date.getHours())}:${pad(date.getMinutes())}`
+}
+
 const normalizePoint = (point, index) => {
-  if (typeof point === 'number') return { value: point, label: '' }
+  if (typeof point === 'number') {
+    return {
+      value: Number.isFinite(point) ? point : null,
+      label: `${index + 1}`,
+      timestamp: null,
+    }
+  }
+
+  const label = point?.label ?? point?.time ?? point?.date ?? point?.timestamp ?? point?.publish_time ?? ''
   return {
-    value: toNumber(point?.value ?? point?.heat ?? point?.count ?? point?.predicted_count ?? point?.y),
-    label: point?.label ?? point?.time ?? point?.date ?? `${index + 1}`,
+    value: toNumber(
+      point?.value ??
+        point?.heat ??
+        point?.hot_score ??
+        point?.count ??
+        point?.news_count ??
+        point?.predicted_count ??
+        point?.y,
+    ),
+    label: String(label ?? '').trim(),
+    timestamp: parseTimestamp(label),
   }
 }
-const normalizeSeries = (values) => (Array.isArray(values) ? values.map(normalizePoint).filter((item) => item.value !== null) : [])
+
+const normalizeSeries = (values) => {
+  if (!Array.isArray(values)) return []
+
+  const merged = new Map()
+  const unparsed = []
+
+  values.forEach((point, index) => {
+    const normalized = normalizePoint(point, index)
+    if (normalized.value === null) return
+
+    if (normalized.timestamp !== null) {
+      merged.set(normalized.timestamp, normalized)
+    } else {
+      unparsed.push({ ...normalized, fallbackIndex: index })
+    }
+  })
+
+  const parsed = Array.from(merged.values()).sort((a, b) => a.timestamp - b.timestamp)
+  return [...parsed, ...unparsed.sort((a, b) => a.fallbackIndex - b.fallbackIndex)]
+}
 
 const currentStageKey = computed(() => normalizeStageKey(props.data?.current_stage ?? props.data?.stage))
 const currentStageLabel = computed(() => {
@@ -194,25 +254,30 @@ const valueRange = computed(() => {
 })
 const xStep = computed(() => {
   const total = actualSeries.value.length + predictedSeries.value.length
-  return total > 1 ? 100 / (total - 1) : 100
+  return total > 1 ? 100 / (total - 1) : 0
 })
 const yOf = (value) => {
   const { min, max } = valueRange.value
   return 94 - ((value - min) / (max - min)) * 82
 }
+const xOf = (index) => {
+  const total = actualSeries.value.length + predictedSeries.value.length
+  if (total <= 1) return 50
+  return index * xStep.value
+}
 const coords = (series, offset = 0) =>
-  series.map((point, index) => `${(index + offset) * xStep.value},${yOf(point.value)}`).join(' ')
+  series.map((point, index) => `${xOf(index + offset)},${yOf(point.value)}`).join(' ')
 const areaPath = (series, offset = 0) => {
-  if (!series.length) return ''
-  const points = series.map((point, index) => `${(index + offset) * xStep.value},${yOf(point.value)}`)
-  return `M ${offset * xStep.value},94 L ${points.join(' L ')} L ${(offset + series.length - 1) * xStep.value},94 Z`
+  if (series.length < 2) return ''
+  const points = series.map((point, index) => `${xOf(index + offset)},${yOf(point.value)}`)
+  return `M ${xOf(offset)},94 L ${points.join(' L ')} L ${xOf(offset + series.length - 1)},94 Z`
 }
 const confidencePath = computed(() => {
   if (!confidenceUpper.value.length || !confidenceLower.value.length) return ''
   const offset = Math.max(actualSeries.value.length - 1, 0)
-  const upper = confidenceUpper.value.map((point, index) => `${(index + offset) * xStep.value},${yOf(point.value)}`)
+  const upper = confidenceUpper.value.map((point, index) => `${xOf(index + offset)},${yOf(point.value)}`)
   const lower = confidenceLower.value
-    .map((point, index) => `${(index + offset) * xStep.value},${yOf(point.value)}`)
+    .map((point, index) => `${xOf(index + offset)},${yOf(point.value)}`)
     .reverse()
   return `M ${upper.join(' L ')} L ${lower.join(' L ')} Z`
 })
@@ -231,12 +296,33 @@ const turningPoints = computed(() =>
     : [],
 )
 const labels = computed(() => {
-  const dataLabels = Array.isArray(props.data?.labels) ? props.data.labels : []
-  if (dataLabels.length) return dataLabels
-  return actualSeries.value.filter((_, index) => index === 0 || index === actualSeries.value.length - 1).map((item) => item.label)
+  const source = actualSeries.value
+  if (!source.length) return []
+
+  const maxLabels = 5
+  if (source.length <= maxLabels) {
+    return source.map((item) => item.label || emptyValue)
+  }
+
+  const indexes = new Set([0, source.length - 1])
+  const step = (source.length - 1) / (maxLabels - 1)
+  for (let index = 1; index < maxLabels - 1; index += 1) {
+    indexes.add(Math.round(index * step))
+  }
+
+  return Array.from(indexes)
+    .sort((a, b) => a - b)
+    .map((index) => source[index]?.label || emptyValue)
 })
-const hasChartData = computed(() => actualSeries.value.length > 1)
+const chartDataState = computed(() => {
+  if (actualSeries.value.length === 0) return 'empty'
+  if (actualSeries.value.length === 1) return 'single'
+  return 'line'
+})
+const hasChartData = computed(() => chartDataState.value !== 'empty')
 const hasPredictionData = computed(() => predictedSeries.value.length > 0)
+const actualTooltipText = (point) =>
+  [`时间：${formatFullTime(point.label)}`, `热度：${valueOrEmpty(point.value)}`].join('\n')
 const tooltipText = (point) => {
   const range =
     point.lower !== null && point.upper !== null
@@ -286,9 +372,9 @@ const tooltipText = (point) => {
             </filter>
           </defs>
           <line v-for="y in [20, 40, 60, 80]" :key="y" x1="0" :y1="y" x2="100" :y2="y" />
-          <path class="area" :d="areaPath(actualSeries)" />
+          <path v-if="chartDataState === 'line'" class="area" :d="areaPath(actualSeries)" />
           <path v-if="confidencePath" class="confidence" :d="confidencePath" />
-          <polyline class="actual-line" :points="coords(actualSeries)" />
+          <polyline v-if="chartDataState === 'line'" class="actual-line" :points="coords(actualSeries)" />
           <polyline
             v-if="predictedSeries.length"
             class="predict-line"
@@ -298,7 +384,7 @@ const tooltipText = (point) => {
             v-for="(point, index) in predictedSeries"
             :key="`predict-${index}`"
             class="predict-point"
-            :cx="(index + Math.max(actualSeries.length - 1, 0)) * xStep"
+            :cx="xOf(index + Math.max(actualSeries.length - 1, 0))"
             :cy="yOf(point.value)"
             r="1.9"
           >
@@ -306,21 +392,25 @@ const tooltipText = (point) => {
           </circle>
           <circle
             v-for="(point, index) in actualSeries"
-            :key="`actual-${index}`"
+            :key="`actual-${point.timestamp ?? point.label}-${index}`"
             class="data-point"
-            :cx="index * xStep"
+            :class="{ 'single-data-point': chartDataState === 'single' }"
+            :cx="xOf(index)"
             :cy="yOf(point.value)"
-            r="1.8"
-          />
+            :r="chartDataState === 'single' ? 3.2 : 1.8"
+          >
+            <title>{{ actualTooltipText(point) }}</title>
+          </circle>
           <g v-for="point in turningPoints" :key="`${point.index}-${point.value}`" class="turning-point">
-            <circle :cx="point.index * xStep" :cy="yOf(point.value)" r="2.4" />
-            <text :x="point.index * xStep" :y="Math.max(yOf(point.value) - 6, 8)">
+            <circle :cx="xOf(point.index)" :cy="yOf(point.value)" r="2.4" />
+            <text :x="xOf(point.index)" :y="Math.max(yOf(point.value) - 6, 8)">
               {{ point.label || '拐点' }}
             </text>
             <title>{{ valueOrEmpty(point.description ?? point.label) }}</title>
           </g>
         </svg>
-        <div v-else class="empty-chart">暂无热度趋势数据</div>
+        <div v-else class="empty-chart">暂无生命周期数据</div>
+        <div v-if="chartDataState === 'single'" class="single-point-note">数据不足，暂无法形成趋势</div>
         <div v-if="!hasPredictionData" class="empty-prediction">暂无预测数据</div>
         <p v-else class="prediction-note">阴影区域代表预测可能波动的范围，范围越宽，不确定性越高。</p>
         <div class="labels">
@@ -470,11 +560,13 @@ const tooltipText = (point) => {
 .actual-line { fill: none; stroke: url(#lifecycleLine); stroke-width: 2.3; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 6px rgba(99, 102, 241, .85)); }
 .predict-line { fill: none; stroke: #38bdf8; stroke-dasharray: 4 3; stroke-width: 1.8; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 5px rgba(56, 189, 248, .55)); }
 .data-point { fill: #e0f2fe; stroke: #8b5cf6; stroke-width: .8; vector-effect: non-scaling-stroke; filter: url(#pointGlow); }
+.single-data-point { fill: #fff; stroke: #38bdf8; stroke-width: 1.2; }
 .predict-point { fill: #bae6fd; stroke: #38bdf8; stroke-width: .8; vector-effect: non-scaling-stroke; filter: url(#pointGlow); }
 .turning-point circle { fill: #f0abfc; stroke: #fff; stroke-width: .6; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 6px rgba(216, 180, 254, .85)); }
 .turning-point text { fill: #d8b4fe; font-size: 3px; text-anchor: middle; paint-order: stroke; stroke: rgba(15, 23, 42, .75); stroke-width: .8; }
 .labels { display: flex; justify-content: space-between; gap: 8px; min-height: 14px; color: #64748b; font-size: 10px; }
 .empty-chart { display: grid; place-items: center; height: 190px; border: 1px dashed rgba(129, 140, 248, .2); border-radius: 12px; color: #7183a3; }
+.single-point-note { margin-top: 8px; color: #facc15; font-size: 11px; }
 .empty-prediction { margin-top: 8px; color: #7183a3; font-size: 11px; }
 .prediction-note { margin: 8px 0 0; color: #9faec7; font-size: 11px; line-height: 1.5; }
 .metric-panel { display: grid; grid-template-rows: repeat(4, 1fr); gap: 10px; }
