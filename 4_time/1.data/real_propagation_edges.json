@@ -1,0 +1,3656 @@
+[
+  {
+    "source": "bili_video_116100482269697",
+    "target": "bili_comment_299630468256",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-21 00:32:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116100482269697",
+    "target": "bili_comment_295876368769",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-11 18:34:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116100482269697",
+    "target": "bili_comment_290764372801",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-21 23:16:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115346698672979",
+    "target": "bili_comment_280400489120",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-10-26 04:33:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115346698672979",
+    "target": "bili_comment_279023391329",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-10-28 23:42:32",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115346698672979",
+    "target": "bili_comment_289683029584",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-01-25 22:34:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113978869089168",
+    "target": "bili_comment_261453288321",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-05-09 19:37:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113978869089168",
+    "target": "bili_comment_254664040929",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-02-14 16:00:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113978869089168",
+    "target": "bili_comment_273748845185",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-05 06:12:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116222100311663",
+    "target": "bili_comment_293285943057",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-17 01:29:09",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116222100311663",
+    "target": "bili_comment_295903480704",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-18 20:40:14",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116222100311663",
+    "target": "bili_comment_293107649633",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-15 10:19:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116747327769396",
+    "target": "bili_comment_303002817217",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-18 06:02:14",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116747327769396",
+    "target": "bili_comment_303415492993",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-21 19:54:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116747327769396",
+    "target": "bili_comment_305749663888",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-14 21:29:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115533647249503",
+    "target": "bili_comment_282647977312",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-11-16 17:59:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115533647249503",
+    "target": "bili_comment_280748165441",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-11-16 09:15:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115533647249503",
+    "target": "bili_comment_282251074496",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-11-12 17:57:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114115754400377",
+    "target": "bili_comment_257485006912",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-03-11 11:52:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114115754400377",
+    "target": "bili_comment_256689830769",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-03-11 00:43:08",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114115754400377",
+    "target": "bili_comment_257469555680",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-03-11 05:36:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116830911862206",
+    "target": "bili_comment_307423877968",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-29 21:44:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116830911862206",
+    "target": "bili_comment_305509286497",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 08:56:08",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116830911862206",
+    "target": "bili_comment_305415839249",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 14:13:14",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114149291983089",
+    "target": "bili_comment_257900595680",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-03-16 11:43:46",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114149291983089",
+    "target": "bili_comment_260309480705",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-25 11:40:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114149291983089",
+    "target": "bili_comment_258415463552",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-03-22 18:23:31",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116001177933472",
+    "target": "bili_comment_288877544273",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-07 02:20:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116001177933472",
+    "target": "bili_comment_288877342561",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-07 02:20:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116001177933472",
+    "target": "bili_comment_291560358880",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-11 00:42:51",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881595896222",
+    "target": "bili_comment_305372125121",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 04:07:35",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881595896222",
+    "target": "bili_comment_308483935792",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 17:08:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881595896222",
+    "target": "bili_comment_308567871712",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 10:05:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115689675300310",
+    "target": "bili_comment_285613955248",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-17 15:47:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116609133845180",
+    "target": "bili_comment_300972985393",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-29 14:53:49",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116609133845180",
+    "target": "bili_comment_304072087280",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-30 06:47:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116609133845180",
+    "target": "bili_comment_303807902752",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-27 17:34:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116150797074789",
+    "target": "bili_comment_302676403712",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-17 16:03:11",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113933721537083",
+    "target": "bili_comment_259575980448",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-05 09:58:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116810510766169",
+    "target": "bili_comment_306955175904",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-25 20:41:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116810510766169",
+    "target": "bili_comment_307000506880",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-26 09:37:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116810510766169",
+    "target": "bili_comment_303833663441",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-25 20:05:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113803463229854",
+    "target": "bili_comment_251472774033",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-10 21:11:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113803463229854",
+    "target": "bili_comment_251489306705",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-11 00:29:43",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113803463229854",
+    "target": "bili_comment_251494049169",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-11 02:00:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116301624317628",
+    "target": "bili_comment_300488893809",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-24 19:07:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116203611818020",
+    "target": "bili_comment_295707087136",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-16 21:42:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116203611818020",
+    "target": "bili_comment_293252483873",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-16 19:14:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116203611818020",
+    "target": "bili_comment_293252185553",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-16 19:11:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116372373967318",
+    "target": "bili_comment_295888708305",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-11 20:22:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114516377470977",
+    "target": "bili_comment_271988914160",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-10 00:29:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114516377470977",
+    "target": "bili_comment_270890050113",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-11 10:56:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114516377470977",
+    "target": "bili_comment_269356323648",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-20 01:15:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115699557074379",
+    "target": "bili_comment_285106641632",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-12 12:16:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115699557074379",
+    "target": "bili_comment_285037862720",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-11 17:55:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115699557074379",
+    "target": "bili_comment_285028728384",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-11 15:59:04",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116216312108372",
+    "target": "bili_comment_292870238401",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-12 23:06:01",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116216312108372",
+    "target": "bili_comment_295523200304",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-15 08:04:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116216312108372",
+    "target": "bili_comment_302131603152",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-12 12:36:49",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878810809324",
+    "target": "bili_comment_305210869041",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:20:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878810809324",
+    "target": "bili_comment_308382182880",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:08:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878810809324",
+    "target": "bili_comment_305210952433",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:22:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116601164667886",
+    "target": "bili_comment_300418884481",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-24 05:11:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116601164667886",
+    "target": "bili_comment_300501488449",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-24 21:01:11",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116601164667886",
+    "target": "bili_comment_300419632033",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-24 05:51:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116885035227338",
+    "target": "bili_comment_305363455489",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 00:57:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116885035227338",
+    "target": "bili_comment_308533264000",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 23:36:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873945548784",
+    "target": "bili_comment_308319055696",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 11:48:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873945548784",
+    "target": "bili_comment_308323139952",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 12:22:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873945548784",
+    "target": "bili_comment_308319352944",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 11:51:51",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873039578732",
+    "target": "bili_comment_305182884385",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 17:23:30",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873039578732",
+    "target": "bili_comment_305095307313",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 22:01:01",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873039578732",
+    "target": "bili_comment_308385575792",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:37:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873224068481",
+    "target": "bili_comment_308533482256",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 23:38:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873224068481",
+    "target": "bili_comment_308706529168",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 11:03:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116873224068481",
+    "target": "bili_comment_308691475280",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 08:23:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884380851748",
+    "target": "bili_comment_305337513473",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 21:08:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884380851748",
+    "target": "bili_comment_308515506848",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 21:11:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884380851748",
+    "target": "bili_comment_308528291024",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 22:53:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884263472053",
+    "target": "bili_comment_305468954193",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 21:53:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884263472053",
+    "target": "bili_comment_308509712608",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:26:20",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884263472053",
+    "target": "bili_comment_305530862833",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 12:26:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116857470257201",
+    "target": "bili_comment_307968618336",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 15:16:27",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116857470257201",
+    "target": "bili_comment_304841808401",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 20:01:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116857470257201",
+    "target": "bili_comment_307947302720",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 12:00:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878626460929",
+    "target": "bili_comment_305204927073",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 20:29:23",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878626460929",
+    "target": "bili_comment_305205447713",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 20:33:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878626460929",
+    "target": "bili_comment_305204058529",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 20:22:16",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872401984094",
+    "target": "bili_comment_308287379440",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 01:53:43",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872401984094",
+    "target": "bili_comment_305066398177",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 17:55:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872401984094",
+    "target": "bili_comment_308234414032",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 17:53:04",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116860087502751",
+    "target": "bili_comment_304994667089",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 00:37:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116860087502751",
+    "target": "bili_comment_304933772657",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 15:28:19",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116860087502751",
+    "target": "bili_comment_304802937921",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 13:51:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113848073918324",
+    "target": "bili_comment_252722112336",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-18 15:16:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113848073918324",
+    "target": "bili_comment_252137276369",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-18 16:02:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113848073918324",
+    "target": "bili_comment_252722123472",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-18 15:16:35",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116483522822184",
+    "target": "bili_comment_300683953536",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-29 20:59:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116483522822184",
+    "target": "bili_comment_297898198737",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-30 16:56:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116483522822184",
+    "target": "bili_comment_300729528096",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-30 07:56:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116850037886267",
+    "target": "bili_comment_305289161217",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 14:09:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116850037886267",
+    "target": "bili_comment_304604542161",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 19:20:14",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116850037886267",
+    "target": "bili_comment_307864766272",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 18:23:59",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116870925518488",
+    "target": "bili_comment_305320818337",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 18:54:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116536824044467",
+    "target": "bili_comment_301913255488",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-10 11:44:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116536824044467",
+    "target": "bili_comment_301693912560",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-08 11:32:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116536824044467",
+    "target": "bili_comment_298770002577",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-08 12:01:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883105912243",
+    "target": "bili_comment_308712900128",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 11:57:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883105912243",
+    "target": "bili_comment_305491797025",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 01:26:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883105912243",
+    "target": "bili_comment_308587301808",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 12:54:44",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872401917676",
+    "target": "bili_comment_308246547968",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 19:34:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872401917676",
+    "target": "bili_comment_305081673537",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 20:04:09",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872401917676",
+    "target": "bili_comment_308240716848",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 18:46:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883743315283",
+    "target": "bili_comment_305313213073",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 17:58:37",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883743315283",
+    "target": "bili_comment_305331341745",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:18:26",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883743315283",
+    "target": "bili_comment_308510034864",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:28:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859768674527",
+    "target": "bili_comment_307950193600",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 12:25:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859768674527",
+    "target": "bili_comment_304794588081",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 12:36:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859768674527",
+    "target": "bili_comment_304820472241",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 16:55:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879314130466",
+    "target": "bili_comment_305246184417",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 05:32:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879314130466",
+    "target": "bili_comment_308796935872",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 23:15:08",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879314130466",
+    "target": "bili_comment_308486293088",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 17:30:06",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116845122295554",
+    "target": "bili_comment_307672816912",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 00:22:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116845122295554",
+    "target": "bili_comment_307689767360",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 07:47:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116845122295554",
+    "target": "bili_comment_307664960816",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-01 23:04:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867905619675",
+    "target": "bili_comment_308306733216",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 09:44:03",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867905619675",
+    "target": "bili_comment_308211804768",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 14:08:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116826734399818",
+    "target": "bili_comment_305567813537",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 17:51:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116826734399818",
+    "target": "bili_comment_308723509248",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 13:18:15",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116826734399818",
+    "target": "bili_comment_305042025121",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 13:46:17",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883659429438",
+    "target": "bili_comment_305323782737",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 19:17:49",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883659429438",
+    "target": "bili_comment_308495570224",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 18:38:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883659429438",
+    "target": "bili_comment_308672393104",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 00:50:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113810878761589",
+    "target": "bili_comment_251594577857",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-12 09:42:43",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113810878761589",
+    "target": "bili_comment_252213779440",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-12 22:10:32",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_113810878761589",
+    "target": "bili_comment_251994283889",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-01-16 23:24:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867435922502",
+    "target": "bili_comment_308160921840",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 00:51:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867435922502",
+    "target": "bili_comment_308238659936",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 18:29:16",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867435922502",
+    "target": "bili_comment_305034837297",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 12:40:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116866345405805",
+    "target": "bili_comment_308169892128",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 03:46:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116866345405805",
+    "target": "bili_comment_308195401568",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 11:40:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116866345405805",
+    "target": "bili_comment_304945139649",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 17:18:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116807843191731",
+    "target": "bili_comment_308756721040",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 18:08:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114930154018024",
+    "target": "bili_comment_269411436945",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-30 14:03:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114930154018024",
+    "target": "bili_comment_270479534960",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-29 10:40:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114930154018024",
+    "target": "bili_comment_270637869168",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-30 16:00:32",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116757326992818",
+    "target": "bili_comment_308625848608",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 18:30:02",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116757326992818",
+    "target": "bili_comment_302909901873",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-17 09:45:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116757326992818",
+    "target": "bili_comment_308348764576",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 16:29:46",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878911478515",
+    "target": "bili_comment_308428659440",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 08:45:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878911478515",
+    "target": "bili_comment_308704823584",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 10:46:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878911478515",
+    "target": "bili_comment_308615353952",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 17:03:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116865120668148",
+    "target": "bili_comment_308176660064",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 07:45:43",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116865120668148",
+    "target": "bili_comment_308074504976",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 12:21:02",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116865120668148",
+    "target": "bili_comment_304937029489",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 16:01:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116820594073054",
+    "target": "bili_comment_304037983857",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-27 17:59:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116820594073054",
+    "target": "bili_comment_307199829856",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-27 23:01:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116820594073054",
+    "target": "bili_comment_304059937857",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-27 21:15:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878810812786",
+    "target": "bili_comment_308393172416",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 22:38:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878810812786",
+    "target": "bili_comment_305280664833",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:55:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116848225945881",
+    "target": "bili_comment_308382332928",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:10:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116848225945881",
+    "target": "bili_comment_305575062097",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 18:48:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116848225945881",
+    "target": "bili_comment_308665491888",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 23:40:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114943072407404",
+    "target": "bili_comment_270712987792",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-31 06:36:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114943072407404",
+    "target": "bili_comment_270791843072",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-31 19:45:27",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114943072407404",
+    "target": "bili_comment_269679357809",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-01 17:11:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116866966099371",
+    "target": "bili_comment_308635102272",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 19:44:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116866966099371",
+    "target": "bili_comment_308200561120",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 12:25:23",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116866966099371",
+    "target": "bili_comment_308333055072",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 13:46:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116863224781508",
+    "target": "bili_comment_305526467169",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 11:52:19",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116863224781508",
+    "target": "bili_comment_308372612496",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 19:50:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116863224781508",
+    "target": "bili_comment_308335680288",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 14:12:27",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116664180019031",
+    "target": "bili_comment_304567572305",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 12:56:26",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116664180019031",
+    "target": "bili_comment_307901051088",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 23:20:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116664180019031",
+    "target": "bili_comment_304977490817",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 22:00:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116860120992664",
+    "target": "bili_comment_308452830000",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:29:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116860120992664",
+    "target": "bili_comment_308656161312",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 22:25:23",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116860120992664",
+    "target": "bili_comment_307960895696",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 13:58:06",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116838612670564",
+    "target": "bili_comment_304406635185",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-30 22:51:20",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116838612670564",
+    "target": "bili_comment_307586771280",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-01 10:34:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116838612670564",
+    "target": "bili_comment_304432828705",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-01 07:58:49",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884900944638",
+    "target": "bili_comment_305381517953",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 08:44:15",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884900944638",
+    "target": "bili_comment_308529466208",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 23:02:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884900944638",
+    "target": "bili_comment_305360868161",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 00:28:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884011750882",
+    "target": "bili_comment_305338071393",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 21:12:30",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884011750882",
+    "target": "bili_comment_305334688705",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:44:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884011750882",
+    "target": "bili_comment_305443949297",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 18:32:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881998487185",
+    "target": "bili_comment_305331729137",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:21:51",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881998487185",
+    "target": "bili_comment_305301830769",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 16:16:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881998487185",
+    "target": "bili_comment_308510376848",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:31:30",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116855389886489",
+    "target": "bili_comment_307898141824",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 22:56:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116855389886489",
+    "target": "bili_comment_307890014656",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 21:52:01",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116855389886489",
+    "target": "bili_comment_304846471041",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 20:40:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882048813374",
+    "target": "bili_comment_305274209921",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:09:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882048813374",
+    "target": "bili_comment_305273630369",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:04:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882048813374",
+    "target": "bili_comment_308453368576",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:32:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883709823874",
+    "target": "bili_comment_308490331280",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 18:00:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883709823874",
+    "target": "bili_comment_305330401697",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:10:37",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883709823874",
+    "target": "bili_comment_305312728529",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 17:55:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859164690266",
+    "target": "bili_comment_308100820240",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 16:04:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859164690266",
+    "target": "bili_comment_308042371360",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 03:20:44",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859164690266",
+    "target": "bili_comment_304962645169",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 19:49:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116464363308152",
+    "target": "bili_comment_297956536577",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-01 03:28:27",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116464363308152",
+    "target": "bili_comment_303493975105",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-22 14:52:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116464363308152",
+    "target": "bili_comment_298261870913",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-03 18:16:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872972343457",
+    "target": "bili_comment_308350433648",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 16:45:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872972343457",
+    "target": "bili_comment_305203933009",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 20:20:15",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116872972343457",
+    "target": "bili_comment_305165467745",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 14:24:23",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879012140860",
+    "target": "bili_comment_305277647505",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:34:04",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879012140860",
+    "target": "bili_comment_305228780721",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 23:52:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879012140860",
+    "target": "bili_comment_308423325280",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 07:18:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882652859894",
+    "target": "bili_comment_305287757105",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 13:56:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882652859894",
+    "target": "bili_comment_305286255361",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 13:41:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882652859894",
+    "target": "bili_comment_305375557201",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 06:45:19",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867670804087",
+    "target": "bili_comment_308171493056",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 04:51:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867670804087",
+    "target": "bili_comment_308158407920",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 00:21:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116867670804087",
+    "target": "bili_comment_305243014769",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 03:36:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879179912448",
+    "target": "bili_comment_305230071713",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 00:05:11",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879179912448",
+    "target": "bili_comment_308395737056",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 22:58:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879179912448",
+    "target": "bili_comment_308428822720",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 08:45:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882501797668",
+    "target": "bili_comment_308776488032",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 20:38:37",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882501797668",
+    "target": "bili_comment_305490328257",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 01:05:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882501797668",
+    "target": "bili_comment_308649464800",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 21:33:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882803789274",
+    "target": "bili_comment_308488941584",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 17:51:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882803789274",
+    "target": "bili_comment_308465079392",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 14:07:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876394891654",
+    "target": "bili_comment_305152823777",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 12:28:27",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876394891654",
+    "target": "bili_comment_305155488545",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 12:50:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876394891654",
+    "target": "bili_comment_308341141264",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 15:10:59",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881629386691",
+    "target": "bili_comment_305273321009",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:02:35",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116017384784315",
+    "target": "bili_comment_289630028657",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-13 01:40:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116017384784315",
+    "target": "bili_comment_288710047201",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-05 18:00:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116017384784315",
+    "target": "bili_comment_290961852160",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-06 10:59:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116016948513567",
+    "target": "bili_comment_288698670977",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-05 16:08:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116016948513567",
+    "target": "bili_comment_288698798945",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-05 16:10:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116016948513567",
+    "target": "bili_comment_290877392912",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-05 16:41:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116850373430135",
+    "target": "bili_comment_304621413745",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 21:55:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116850373430135",
+    "target": "bili_comment_304624480049",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 22:22:09",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116850373430135",
+    "target": "bili_comment_307779696416",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-02 23:04:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879381302604",
+    "target": "bili_comment_305226236993",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 23:28:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879381302604",
+    "target": "bili_comment_305243141633",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 03:30:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879381302604",
+    "target": "bili_comment_308417100944",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 03:36:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114081444929043",
+    "target": "bili_comment_290481156161",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-19 21:22:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114081444929043",
+    "target": "bili_comment_289464503921",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-11 21:03:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114081444929043",
+    "target": "bili_comment_255858577361",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-02-28 20:17:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883994970064",
+    "target": "bili_comment_305392946977",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 10:53:37",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883994970064",
+    "target": "bili_comment_308509400448",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:24:46",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883994970064",
+    "target": "bili_comment_305323370129",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 19:13:56",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114749144571627",
+    "target": "bili_comment_266811477936",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-27 07:52:26",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114749144571627",
+    "target": "bili_comment_266763009872",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-26 18:23:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114749144571627",
+    "target": "bili_comment_266766903744",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-26 19:04:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114711865595170",
+    "target": "bili_comment_265086068129",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-20 14:43:37",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114711865595170",
+    "target": "bili_comment_266116087792",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-20 06:47:15",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114711865595170",
+    "target": "bili_comment_266204998576",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-21 00:55:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114266212403731",
+    "target": "bili_comment_258551867793",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-03 06:50:02",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114266212403731",
+    "target": "bili_comment_258566866033",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-03 11:41:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114266212403731",
+    "target": "bili_comment_259388562880",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-03 04:01:44",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881595897153",
+    "target": "bili_comment_308518348880",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 21:34:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881595897153",
+    "target": "bili_comment_305336569041",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:59:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881595897153",
+    "target": "bili_comment_305337726529",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 21:09:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116680051132584",
+    "target": "bili_comment_302317692529",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-11 16:08:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116680051132584",
+    "target": "bili_comment_304902112592",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-07 00:03:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116680051132584",
+    "target": "bili_comment_303414791313",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-21 19:48:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116870623532658",
+    "target": "bili_comment_305073330577",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 18:53:03",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116870623532658",
+    "target": "bili_comment_305026827889",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 11:24:30",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116870623532658",
+    "target": "bili_comment_308188028928",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-06 10:22:55",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116258926303997",
+    "target": "bili_comment_293615021073",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-20 17:27:44",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116258926303997",
+    "target": "bili_comment_293697549617",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-21 12:58:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116258926303997",
+    "target": "bili_comment_293771810705",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-22 01:07:32",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882166323847",
+    "target": "bili_comment_308447701872",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 11:52:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882166323847",
+    "target": "bili_comment_305273712369",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:05:04",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116882166323847",
+    "target": "bili_comment_305273135985",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 12:00:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116776302021413",
+    "target": "bili_comment_307558135376",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-01 00:18:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116776302021413",
+    "target": "bili_comment_306781738512",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-24 07:00:15",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116776302021413",
+    "target": "bili_comment_303649563185",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-23 23:17:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859785448767",
+    "target": "bili_comment_308014252960",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 21:53:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859785448767",
+    "target": "bili_comment_304882923137",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 03:34:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116859785448767",
+    "target": "bili_comment_308003747600",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 20:27:35",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115535324973868",
+    "target": "bili_comment_285299730000",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-14 09:38:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115535324973868",
+    "target": "bili_comment_280454332321",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-11-13 03:11:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115535324973868",
+    "target": "bili_comment_284142216160",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-02 16:32:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116879012208194",
+    "target": "bili_comment_308389120736",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 22:04:59",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881881045754",
+    "target": "bili_comment_308553511936",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 06:31:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881881045754",
+    "target": "bili_comment_308594676224",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 13:57:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881881045754",
+    "target": "bili_comment_305378629985",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 07:58:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115234274544080",
+    "target": "bili_comment_276583970064",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-20 11:02:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115234274544080",
+    "target": "bili_comment_276612577584",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-20 16:18:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115234274544080",
+    "target": "bili_comment_276588736256",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-20 11:54:02",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116661512308598",
+    "target": "bili_comment_301081813281",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-30 14:40:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116661512308598",
+    "target": "bili_comment_304124320176",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-30 17:02:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116661512308598",
+    "target": "bili_comment_301661988497",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-05 10:17:06",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115037310028483",
+    "target": "bili_comment_271554109201",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-16 16:09:46",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115037310028483",
+    "target": "bili_comment_271556824209",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-16 16:38:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115037310028483",
+    "target": "bili_comment_272835652192",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-16 16:35:19",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116837438260884",
+    "target": "bili_comment_304465137393",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-01 14:26:56",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116837438260884",
+    "target": "bili_comment_304727927105",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 20:47:04",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116837438260884",
+    "target": "bili_comment_304719769777",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 19:34:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114024486274686",
+    "target": "bili_comment_255035310353",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-02-18 19:30:03",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114024486274686",
+    "target": "bili_comment_255751550304",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-02-18 21:17:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114024486274686",
+    "target": "bili_comment_257112551825",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-03-16 11:25:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876763993614",
+    "target": "bili_comment_308438686784",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 10:32:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876763993614",
+    "target": "bili_comment_308385970128",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:40:51",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876763993614",
+    "target": "bili_comment_305222812865",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 22:58:11",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116877200334106",
+    "target": "bili_comment_305198005393",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 19:29:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116877200334106",
+    "target": "bili_comment_305166213217",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 14:33:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116877200334106",
+    "target": "bili_comment_305165294465",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 14:22:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883105912243",
+    "target": "bili_comment_305616842305",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-11 00:27:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116883105912243",
+    "target": "bili_comment_305616795905",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-11 00:27:19",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116758887269942",
+    "target": "bili_comment_304301737201",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-30 00:02:21",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116758887269942",
+    "target": "bili_comment_304166674465",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-28 19:37:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116758887269942",
+    "target": "bili_comment_306446586432",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-21 07:30:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116719477655224",
+    "target": "bili_comment_305253167824",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-10 10:03:08",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116719477655224",
+    "target": "bili_comment_305860388400",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-15 22:21:03",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116719477655224",
+    "target": "bili_comment_307302176368",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-28 20:10:51",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114368838636154",
+    "target": "bili_comment_259989547473",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-21 00:50:17",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114368838636154",
+    "target": "bili_comment_259989072657",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-21 00:41:49",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114368838636154",
+    "target": "bili_comment_259999831153",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-21 08:14:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876696884886",
+    "target": "bili_comment_308350084880",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 16:41:08",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876696884886",
+    "target": "bili_comment_308386547408",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 21:45:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116876696884886",
+    "target": "bili_comment_308374165856",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 20:02:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116877653181216",
+    "target": "bili_comment_308480963568",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 16:41:31",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116877653181216",
+    "target": "bili_comment_305218932289",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 22:27:41",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116877653181216",
+    "target": "bili_comment_308348874352",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-07 16:30:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115121179397986",
+    "target": "bili_comment_273921736881",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-06 22:25:59",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116753216571306",
+    "target": "bili_comment_302830184129",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-16 13:22:17",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116753216571306",
+    "target": "bili_comment_302745924561",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-15 17:00:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116753216571306",
+    "target": "bili_comment_302814183697",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-16 10:20:09",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878861141133",
+    "target": "bili_comment_305266398209",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 11:02:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878861141133",
+    "target": "bili_comment_308441741936",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 11:01:33",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116878861141133",
+    "target": "bili_comment_308446546832",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 11:43:43",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114693477767017",
+    "target": "bili_comment_272665135856",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-15 09:40:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114693477767017",
+    "target": "bili_comment_266043050512",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-06-19 12:09:05",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114693477767017",
+    "target": "bili_comment_266870105249",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-07-08 09:59:47",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116855557660385",
+    "target": "bili_comment_308680418848",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 03:01:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116855557660385",
+    "target": "bili_comment_307868672736",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 18:53:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116855557660385",
+    "target": "bili_comment_307866843760",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 18:39:46",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115789332028676",
+    "target": "bili_comment_284573475457",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-27 11:49:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115789332028676",
+    "target": "bili_comment_284579183217",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-27 12:46:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115789332028676",
+    "target": "bili_comment_286603985920",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-27 12:12:31",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116210138088549",
+    "target": "bili_comment_302003291280",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-11 03:05:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116210138088549",
+    "target": "bili_comment_292761235073",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-11 19:42:36",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116210138088549",
+    "target": "bili_comment_301127658689",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-30 22:16:02",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116837203318348",
+    "target": "bili_comment_304495094081",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-01 19:34:31",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116837203318348",
+    "target": "bili_comment_307818711040",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 10:56:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116837203318348",
+    "target": "bili_comment_305575515441",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 18:52:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884968049096",
+    "target": "bili_comment_305391152433",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 10:35:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884968049096",
+    "target": "bili_comment_308567446416",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 10:00:31",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884968049096",
+    "target": "bili_comment_308563814592",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 09:21:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116822405815692",
+    "target": "bili_comment_307935465216",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 10:04:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116822405815692",
+    "target": "bili_comment_308800358992",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 23:44:00",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116822405815692",
+    "target": "bili_comment_305487448737",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-10 00:31:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884867453289",
+    "target": "bili_comment_305350157201",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 22:50:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116746019211380",
+    "target": "bili_comment_303089529169",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-18 23:18:24",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116746019211380",
+    "target": "bili_comment_303676148257",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-24 09:18:01",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116746019211380",
+    "target": "bili_comment_306496603456",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-21 16:39:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116641127993301",
+    "target": "bili_comment_301932410993",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-07 20:00:45",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116641127993301",
+    "target": "bili_comment_304894088672",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-06 22:46:31",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116641127993301",
+    "target": "bili_comment_302619928369",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-14 12:53:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884968244353",
+    "target": "bili_comment_308572840320",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 10:55:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884968244353",
+    "target": "bili_comment_305388354769",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 10:04:20",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116884968244353",
+    "target": "bili_comment_308545217088",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-09 01:48:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114879587422076",
+    "target": "bili_comment_282225886673",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-02 16:01:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114879587422076",
+    "target": "bili_comment_282593242321",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-06 13:28:48",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114879587422076",
+    "target": "bili_comment_279938891057",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-11-07 17:18:15",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114848516021821",
+    "target": "bili_comment_271770988144",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-08 12:26:11",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114848516021821",
+    "target": "bili_comment_275220713216",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-06 10:57:58",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114848516021821",
+    "target": "bili_comment_277402328640",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-28 16:19:53",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114985250325771",
+    "target": "bili_comment_270493408257",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-08 05:37:10",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114985250325771",
+    "target": "bili_comment_271764504416",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-08 11:36:03",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114985250325771",
+    "target": "bili_comment_271717029600",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-08-07 23:10:26",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881746888464",
+    "target": "bili_comment_308519132032",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 21:40:40",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881746888464",
+    "target": "bili_comment_305304586801",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 16:43:43",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116881746888464",
+    "target": "bili_comment_305331104273",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-08 20:16:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115715847756483",
+    "target": "bili_comment_285415038256",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-15 12:37:34",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115715847756483",
+    "target": "bili_comment_287790074993",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-01-28 11:07:20",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115715847756483",
+    "target": "bili_comment_284820445361",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-29 18:51:51",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116046140868307",
+    "target": "bili_comment_294315239776",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-03 19:58:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116046140868307",
+    "target": "bili_comment_305376218848",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-11 13:47:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116046140868307",
+    "target": "bili_comment_292194888225",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-05 23:07:59",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116751723398309",
+    "target": "bili_comment_307974660912",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-04 16:16:54",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116751723398309",
+    "target": "bili_comment_308070580432",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 11:49:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116751723398309",
+    "target": "bili_comment_303502774353",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-22 16:44:28",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115559416989414",
+    "target": "bili_comment_282665356288",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-11-16 20:56:32",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115559416989414",
+    "target": "bili_comment_286776320224",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-28 21:37:07",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115559416989414",
+    "target": "bili_comment_298907699952",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-04-14 22:24:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114282435972762",
+    "target": "bili_comment_287150718800",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-01-01 14:13:29",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_114282435972762",
+    "target": "bili_comment_259570708688",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-04-05 08:14:22",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115953463525742",
+    "target": "bili_comment_296387251872",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-03-23 08:49:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115953463525742",
+    "target": "bili_comment_292583020432",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-02-18 17:54:01",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115656003427703",
+    "target": "bili_comment_286275046209",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-01-13 11:01:25",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115656003427703",
+    "target": "bili_comment_305181761472",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-09 16:49:50",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115656003427703",
+    "target": "bili_comment_306257267120",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-19 17:24:59",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116537092545358",
+    "target": "bili_comment_302945806096",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-20 01:24:39",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116537092545358",
+    "target": "bili_comment_299225658529",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-12 21:52:26",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116537092545358",
+    "target": "bili_comment_299897605777",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-19 14:06:32",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116607590339886",
+    "target": "bili_comment_304603918736",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-04 06:49:52",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116607590339886",
+    "target": "bili_comment_303714624384",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-05-26 18:56:42",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116607590339886",
+    "target": "bili_comment_301494110481",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-03 14:32:57",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116823328556804",
+    "target": "bili_comment_307265150608",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-06-28 14:18:18",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116823328556804",
+    "target": "bili_comment_308029173344",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-05 00:04:13",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_116823328556804",
+    "target": "bili_comment_304635258705",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-07-03 00:04:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115321281190827",
+    "target": "bili_comment_284999655377",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-12-31 16:04:38",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115321281190827",
+    "target": "bili_comment_278228060672",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-10-05 21:46:26",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115321281190827",
+    "target": "bili_comment_286336298801",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-01-13 23:00:46",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115190251132726",
+    "target": "bili_comment_276581154464",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-09-20 10:29:12",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115190251132726",
+    "target": "bili_comment_278202551489",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2025-10-20 14:39:06",
+    "is_inferred": false
+  },
+  {
+    "source": "bili_video_115190251132726",
+    "target": "bili_comment_287085676145",
+    "relation": "bilibili_video_comment",
+    "type": "bilibili_video_comment",
+    "platform": "bilibili",
+    "post_time": "2026-01-21 13:57:33",
+    "is_inferred": false
+  }
+]

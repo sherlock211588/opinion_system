@@ -1,0 +1,190 @@
+======================================================================
+  FULL PIPELINE with 3.data
+  114 events, 1228 articles
+======================================================================
+
+======================================================================
+  MODULE 1: Lifecycle Detection
+======================================================================
+Stage Distribution:
+  衰退期: 52 (45.6%)
+  高潮期: 36 (31.6%)
+  成长期: 22 (19.3%)
+  潜伏期: 4 (3.5%)
+Warning: RED=0 ORANGE=1 YELLOW=41 NONE=72
+Grades:
+  full: 63
+  basic: 17
+  minimal: 21
+  sparse: 13
+
+Top 15 Events:
+EventID        Cat        Stage     Heat Trend Warn      Eff  News  Title
+EVT_000058     社会民生       高潮期         50 平稳    yellow      7    96  中联油致癌物事件延烧 北中市府全面追查下架进度
+EVT_000009     体育赛事       衰退期         42 下降    none        3    12  “佛得角邀国足踢友谊赛被婉拒”？中国足协发布情况通报
+EVT_000064     教育考试       高潮期         42 平稳    none        2     6  江苏省2026年普通高校招生普通类本科提前批次平行志愿投档线 - 搜狐网
+EVT_000088     灾害事故       成长期         42 上升    none        2     6  广西南宁洪涝灾害还存在三方面风险，当地已成立救援指挥部
+EVT_000096     灾害事故       成长期         39 上升    yellow      7    49  巴威「超肥」暴风圈恐笼罩全台！预估海陆警范围曝
+EVT_000102     灾害事故       衰退期         39 下降    none        2    12  国家地质灾害四级应急响应启动 应急管理部派工作组赶赴甘肃宕昌县山体滑坡现场
+EVT_000015     政治政策       成长期         37 上升    none       10    27  国防部：中国海军组织潜射战略导弹试射，实现了预期目标，中方事先向有关国家作了通报
+EVT_000085     社会民生       成长期         37 上升    yellow      4     7  出行服务台｜暴雨天自驾遇到险情如何避险才安全？这份“攻略”请收好↓ - 央视网
+EVT_000106     灾害事故       高潮期         37 平稳    none        2     9  应对台风“美莎克” 自然资源部将广西地质灾害防御响应等级提至Ⅲ级
+EVT_000024     科技互联网      成长期         36 上升    none        6    10  带学生模式的手机哪款值得买？339元联想AI学生手机L1实测推荐 - 新浪网
+EVT_000048     社会民生       成长期         36 上升    none        5    13  汕头通报“一男子将女童扔进水沟被群众及时救起”：男子已送精神病医院治疗 - 新浪
+EVT_000063     教育考试       成长期         36 上升    none       12    17  录取时间定了！我省2026年普通高校招生录取安排出炉！
+EVT_000089     灾害事故       衰退期         36 下降    none        3     6  广西钦州警方通报：一涵洞发生坍塌，2辆途经车辆掉入，车上4人已脱困，无人伤亡
+EVT_000112     灾害事故       成长期         36 上升    none        3    12  暴雨＋强对流双预警齐发，河北山东等局地将有10级以上雷暴大风
+EVT_000083     灾害事故       成长期         35 上升    none        3     5  广西洪水致养蛇场蛇逃出，包括眼镜蛇，网友称已有人被咬伤，当地：救援已达一线 - 
+
+Full-grade events (63 with predictions):
+  EVT_000058 [社会民生] 高潮期 heat=50 trend=平稳 pred=12steps resurgence=False
+  EVT_000096 [灾害事故] 成长期 heat=39 trend=上升 pred=12steps resurgence=False
+  EVT_000015 [政治政策] 成长期 heat=37 trend=上升 pred=12steps resurgence=False
+  EVT_000085 [社会民生] 成长期 heat=37 trend=上升 pred=12steps resurgence=False
+  EVT_000024 [科技互联网] 成长期 heat=36 trend=上升 pred=12steps resurgence=False
+
+======================================================================
+  MODULE 2: Propagation Tracing
+======================================================================
+
+  EVT_000088 (广西洪涝灾害):
+    Nodes: 204 (videos=59, comments=145) | Depth=2 | Key: 81
+    Graph: 204 nodes, 145 edges, DAG=True
+    Description: B站用户对各地暴雨、洪水、消防救援等自然灾害事件的讨论
+    Top discussion nodes:
+      [超级传播节点] bili_99947306977 | composite=0.45
+      [超级传播节点] 栾栾栾栾栾栾栾gz | composite=0.45
+      [初始爆料源] ULSOAP | composite=0.443
+      [初始爆料源] 软糯可口的饭团 | composite=0.443
+      [初始爆料源] 直击灾祸 | composite=0.443
+    Key information hubs (structural impact):
+      bili_99947306977 | reach_loss=1 nodes
+      栾栾栾栾栾栾栾gz | reach_loss=1 nodes
+      ULSOAP | reach_loss=4 nodes
+    Visualization: 204 nodes, 145 links (force-directed graph)
+
+  EVT_000058 (中联油致癌物事件):
+    Nodes: 63 (videos=23, comments=40) | Depth=2 | Key: 25
+    Graph: 63 nodes, 40 edges, DAG=True
+    Description: B站用户对食品安全问题的科普与讨论
+    Top discussion nodes:
+      [超级传播节点] 南国少将的晴天 | composite=0.45
+      [超级传播节点] 安全生产管理 | composite=0.45
+      [超级传播节点] doris蓉儿 | composite=0.45
+      [超级传播节点] 一棵栾树的叶子 | composite=0.45
+      [初始爆料源] 食品科学阿祖 | composite=0.443
+    Key information hubs (structural impact):
+      南国少将的晴天 | reach_loss=1 nodes
+      安全生产管理 | reach_loss=1 nodes
+      doris蓉儿 | reach_loss=1 nodes
+    Visualization: 63 nodes, 40 links (force-directed graph)
+
+  Coverage: 2/114 events with propagation data (267 nodes matched)
+  Other events: propagation analysis not available
+
+======================================================================
+  MODULE 3: Fake Detection (3.data news_output.json)
+======================================================================
+Model CV accuracy: combined=85.6%  text_only=84.6%
+
+Verdicts (1228 articles):
+  可信: 481 (39.2%) ###################
+  待验证: 626 (51.0%) #########################
+  疑似虚假: 121 (9.9%) ####
+Downgraded (short text no metadata): 468
+
+Sentiment vs Verdict:
+  Sent         Real  Uncertain     Fake
+  positive      217        188       22
+  negative      179        320       88
+  neutral        85        118       11
+
+Category vs Verdict:
+  Category          Real  Uncertain     Fake    Total
+  灾害事故                91        236       34      361
+  社会民生               137        141       65      343
+  政治政策               102         90       16      208
+  教育考试                61         68        0      129
+  科技互联网               35         19        1       55
+  经济财经                32         17        1       50
+  健康医疗                14         26        0       40
+  国际事件                 4         11        4       19
+  体育赛事                 1         17        0       18
+  娱乐明星                 4          1        0        5
+
+Events with highest fake ratio:
+  Event            Tot  Real   Unc  Fake  Fake%  Title
+  EVT_000026        14     2     4     8    57%  佀广洋爆霸凌鞠躬道歉 高嘉瑜轰：应退选！万美玲讲清楚是否包庇施压
+  EVT_000098        11     0     5     6    55%  广西南宁最新通报：横州市六蓝水库、云表水库出现漫顶及缺口，宾阳县六旺水库出现漫坝
+  EVT_000022         6     2     1     3    50%  我和当初校园霸凌我的人在一起了，本以为这是他的强制爱，现实却是！
+  EVT_000010         7     2     2     3    43%  24小时内三艘船只被通报在霍尔木兹海峡遇袭，美方指称伊朗发射导弹
+  EVT_000058        96    33    24    39    41%  中联油致癌物事件延烧 北中市府全面追查下架进度
+  EVT_000060         5     0     3     2    40%  重庆一电动汽车充电站内车辆起火，官方通报：火灾造成两辆轿车损毁，无人员伤亡，起火
+  EVT_000055         9     2     4     3    33%  “广州东站一旅客辱骂殴打工作人员”，官方通报：相关部门已将当事人带走调查，受伤工
+  EVT_000101         7     0     5     2    29%  黄色暴雨警告一度生效 全港晚上多地录逾30毫米雨量
+  EVT_000084         7     0     5     2    29%  近日，辽宁一女外卖员被暴雨冲倒，路过的车主果断拦截，众人合力救人！暴雨中的这一幕
+  EVT_000082         7     1     4     2    29%  广西贵港通报“多所学校出现严重内涝”：所有学生已转移至安全区域，个别平台传播“学
+
+Sample verdicts:
+  [可信] conf=96% sent=positive | 记者黄朝琴／台北报导 教育部第21届「教育奉献奖」今（7）日公布获奖名单，共有20名退休校长或教师获此殊荣，其
+  [待验证] conf=63% sent=negative | 115学年度高中职免试入学今（7）日放榜，全国共有12万620人报名，最终11万9,664人录取，录取率高达9
+  [疑似虚假] [DG] conf=39% sent=negative | 中联油脂大豆沙拉油遭验出致癌物「苯骈芘」超标，引发全国食品安全危机，也让民众对每天吃进肚子的食品感到忧心。台南
+  [疑似虚假] [DG] conf=19% sent=negative | [Newtalk新闻] 国民党立委万美玲儿子、桃园市议员参选人佀广洋屡屡被爆霸凌同学、涉入网路签赌等争议，为了
+  [疑似虚假] [DG] conf=41% sent=negative | [Newtalk新闻] 针对中联油脂爆发致癌物「苯骈芘（BaP）」超标事件，引发全国恐慌，民进党台中市议会党团
+  [可信] conf=70% sent=positive | 【纬来新闻网】115学年高级中等学校免试入学今（7日）公布分发结果，年会考考生共计18万2868人，全台15个
+  [疑似虚假] [DG] conf=6% sent=negative | [Newtalk新闻] 民进党台中市议会党团今（7）日针对中联油脂风波举行记者会，指称台中市府在流向掌握、下架
+  [可信] conf=74% sent=positive | 【互传媒／记者 林明佑／彰化 报导】彰化区免试入学已于115年7月7日上午11时放榜，请至彰化区高级中等学校-
+
+======================================================================
+  MODULE 4: Cross-Event Causality
+======================================================================
+Qualified: 69/114
+
+  Primary: Symbolic Transfer Entropy (nonlinear, robust to sparse data)
+    Total pairs: 4160 | Significant: 173 (4.2%)
+    Top causal pairs:
+      EVT_000058 -> EVT_000015
+        TE=0.2874  p=0.0 ***
+      EVT_000070 -> EVT_000068
+        TE=0.239  p=0.0 ***
+      EVT_000015 -> EVT_000085
+        TE=0.2285  p=0.0 ***
+      EVT_000047 -> EVT_000003
+        TE=0.2171  p=0.0 ***
+      EVT_000011 -> EVT_000001
+        TE=0.2131  p=0.025 ***
+      EVT_000040 -> EVT_000019
+        TE=0.2016  p=0.005 ***
+      EVT_000096 -> EVT_000015
+        TE=0.1831  p=0.0 ***
+      EVT_000036 -> EVT_000015
+        TE=0.17  p=0.01 ***
+      EVT_000007 -> EVT_000096
+        TE=0.1568  p=0.01 ***
+      EVT_000038 -> EVT_000044
+        TE=0.1543  p=0.01 ***
+
+  Secondary: Granger Causality (linear, sensitive to zero-padding)
+    Total pairs: 4692 | Significant: 1685 (35.9%)
+    Top Granger pairs:
+      EVT_000001 -> EVT_000005
+        lag=4steps(24h) p=0.0
+      EVT_000001 -> EVT_000008
+        lag=1steps(6h) p=0.0
+      EVT_000001 -> EVT_000017
+        lag=1steps(6h) p=0.0
+      EVT_000001 -> EVT_000022
+        lag=1steps(6h) p=0.0
+      EVT_000001 -> EVT_000024
+        lag=1steps(6h) p=0.0
+
+======================================================================
+  SUMMARY
+======================================================================
+Module 1: 114 events, 63 full-grade, 17 basic
+Module 2: 2 events with propagation (267 matched nodes total)
+Module 3: 1228 articles checked, 9.9% fake
+Module 4: 1685 Granger + 173 TE significant
+
+ALL DONE
+Done - see full_result_3data.txt

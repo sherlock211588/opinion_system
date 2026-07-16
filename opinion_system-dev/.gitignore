@@ -1,0 +1,15 @@
+# Python缓存文件
+__pycache__/
+*.pyc
+
+# VSCode配置文件夹
+.vscode/
+
+# 日志文件
+*.log
+
+# 预训练模型文件夹（禁止上传）
+models/
+
+# 密钥环境变量文件
+.env
